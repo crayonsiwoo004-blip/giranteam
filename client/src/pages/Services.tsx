@@ -69,14 +69,41 @@ export default function ServicesPage() {
 
   return (
     <Layout>
+      {/* SEO Optimization */}
+      <head>
+        <title>서비스 안내 | 리니지 대리, 리니지 클래식 대리 전문 가격표</title>
+        <meta name="description" content="리니지 대리 및 리니지 클래식 대리 서비스의 투명한 가격표와 이용 절차를 안내합니다. 1시간부터 120시간까지 다양한 패키지를 확인하세요." />
+        <meta name="keywords" content="리니지 대리 가격, 리니지 클래식 대리 비용, 리니지 육성 가격, 리니지 대리 서비스 안내" />
+      </head>
+
+      {/* Structured Data for Services */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org/",
+          "@type": "Service",
+          "serviceType": "리니지 게임 대리 서비스",
+          "provider": {
+            "@type": "LocalBusiness",
+            "name": "리니지대리"
+          },
+          "offers": servicePackages.map(pkg => ({
+            "@type": "Offer",
+            "name": `리니지 대리 ${pkg.duration} 패키지`,
+            "price": pkg.price,
+            "priceCurrency": "KRW",
+            "description": pkg.description
+          }))
+        })}
+      </script>
+
       <div className="pt-20 pb-12">
         {/* Header */}
         <section className="py-16 bg-gradient-to-b from-primary/10 to-transparent border-b border-white/5">
           <div className="container mx-auto px-4">
             <div className="text-center">
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">서비스 안내</h1>
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">리니지 클래식 대리 서비스 안내</h1>
               <p className="text-muted-foreground text-lg">
-                당신의 필요에 맞는 패키지를 선택하세요
+                리니지 대리, 당신의 필요에 맞는 최적의 패키지를 선택하세요
               </p>
             </div>
           </div>
@@ -103,7 +130,7 @@ export default function ServicesPage() {
         <section className="py-16">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl font-bold text-white mb-12 text-center">가격표</h2>
+              <h2 className="text-3xl font-bold text-white mb-12 text-center">리니지 대리 가격표</h2>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
                 {servicePackages.map(pkg => (
@@ -166,7 +193,7 @@ export default function ServicesPage() {
 
               {/* Payment Info */}
               <div className="bg-gradient-to-r from-primary/20 to-cyan-500/20 border border-primary/30 rounded-2xl p-8">
-                <h3 className="text-xl font-bold text-white mb-4">결제 방식</h3>
+                <h3 className="text-xl font-bold text-white mb-4">리니지 대리 결제 방식</h3>
                 <div className="space-y-3 text-gray-300">
                   <p>
                     <span className="font-bold text-primary">✓ 아이템매니아</span>를 통한 결제만 가능합니다.
@@ -187,7 +214,7 @@ export default function ServicesPage() {
         <section className="py-16 bg-black/30 border-t border-white/5">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-white mb-12 text-center">이용 절차</h2>
+              <h2 className="text-3xl font-bold text-white mb-12 text-center">리니지 클래식 대리 이용 절차</h2>
 
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 {[
@@ -218,9 +245,9 @@ export default function ServicesPage() {
         <section className="py-16">
           <div className="container mx-auto px-4">
             <div className="max-w-2xl mx-auto text-center bg-gradient-to-r from-primary/20 to-cyan-500/20 border border-primary/30 rounded-2xl p-12">
-              <h2 className="text-3xl font-bold text-white mb-4">지금 바로 시작하세요</h2>
+              <h2 className="text-3xl font-bold text-white mb-4">지금 바로 리니지 대리 상담을 시작하세요</h2>
               <p className="text-muted-foreground mb-8">
-                리니지대리와 함께 안전하고 신뢰할 수 있는 게임 대리 서비스를 경험해보세요.
+                리니지대리와 함께 안전하고 신뢰할 수 있는 리니지 클래식 대리 서비스를 경험해보세요.
               </p>
               <button
                 onClick={() => window.open('https://open.kakao.com/o/sxT1c2ci', '_blank')}

@@ -14,24 +14,22 @@ interface JobPosition {
 const jobPositions: JobPosition[] = [
   {
     id: 1,
-    title: '리니지 게임 기사',
-    description: '리니지 게임에서 고객의 계정을 대리 플레이하는 업무를 담당합니다. 안정적인 수입과 자유로운 시간 관리가 가능합니다.',
+    title: '리니지 대리 전문 기사',
+    description: '리니지 대리 및 리니지 클래식 대리 업무를 담당할 전문 기사를 모집합니다. 안정적인 수익과 자유로운 업무 환경을 제공합니다.',
     requirements: [
-      '책임감 있는 성격',
-      '안정적인 인터넷 환경',
-      '신뢰성 있는 업무 처리 능력',
-      '주 20시간 이상 근무 가능'
+      '리니지 게임에 대한 높은 이해도',
+      '책임감 있는 성격 및 성실함',
+      '안정적인 인터넷 및 PC 환경',
+      '장기 근무 가능자 우대'
     ],
     benefits: [
-      '자유로운 시간 관리',
-      '24시간 운영 지원팀',
-      '정기적인 교육 및 스킬 업그레이드'
+      '업계 최고 수준의 수익 보장',
+      '24시간 운영 지원 및 케어',
+      '안정적인 물량 확보 및 배정'
     ],
     documents: [
-      '범죄기록회보서',
-      '신분증',
-      '계좌번호',
-      '기타 필요 서류 (추가 요청 시)'
+      '본인 확인 서류',
+      '기타 업무 수행에 필요한 서류'
     ]
   }
 ];
@@ -40,22 +38,22 @@ const qualifications = [
   {
     icon: <Users className="w-6 h-6" />,
     title: '신뢰성',
-    description: '고객의 계정을 안전하게 관리할 수 있는 신뢰할 수 있는 분'
+    description: '고객의 소중한 계정을 안전하게 관리할 수 있는 신뢰할 수 있는 분'
   },
   {
     icon: <Briefcase className="w-6 h-6" />,
     title: '책임감',
-    description: '맡은 업무를 성실하게 수행하는 분'
+    description: '리니지 대리 업무를 자신의 일처럼 책임감 있게 수행하는 분'
   },
   {
     icon: <Award className="w-6 h-6" />,
     title: '안정성',
-    description: '지속적이고 안정적인 근무가 가능한 분'
+    description: '지속적이고 안정적인 근무가 가능한 전문 기사님'
   },
   {
     icon: <Clock className="w-6 h-6" />,
     title: '유연성',
-    description: '자유로운 시간 관리와 안정적인 근무 가능'
+    description: '자유로운 시간 관리와 효율적인 업무 처리가 가능'
   }
 ];
 
@@ -71,7 +69,6 @@ export default function RecruitmentPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // 카카오톡으로 전송
     const message = `안녕하세요! 리니지대리 기사 모집에 지원합니다.\n\n이름: ${formData.name}\n이메일: ${formData.email}\n전화: ${formData.phone}\n경력: ${formData.experience}\n\n${formData.message}`;
     window.open(`https://open.kakao.com/o/sxT1c2ci`, '_blank');
     setFormData({
@@ -85,23 +82,28 @@ export default function RecruitmentPage() {
 
   return (
     <Layout>
+      {/* SEO Optimization */}
+      <head>
+        <title>기사 모집 | 리니지 대리, 리니지 클래식 대리 전문 파트너 채용</title>
+        <meta name="description" content="리니지 대리 및 리니지 클래식 대리 서비스를 함께 이끌어갈 전문 기사님을 모집합니다. 업계 최고 대우와 안정적인 업무 환경을 약속드립니다." />
+        <meta name="keywords" content="리니지 대리 기사 모집, 리니지 클래식 대리 구인, 리니지 육성 기사 채용, 게임 대리 알바" />
+      </head>
+
       <div className="pt-20 pb-12">
         {/* Header */}
         <section className="py-16 bg-gradient-to-b from-primary/10 to-transparent border-b border-white/5">
-          <div className="container mx-auto px-4">
-            <div className="text-center">
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">기사 모집</h1>
-              <p className="text-muted-foreground text-lg">
-                리니지대리와 함께 성장할 전문 기사를 모집합니다
-              </p>
-            </div>
+          <div className="container mx-auto px-4 text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">리니지 대리 기사 모집</h1>
+            <p className="text-muted-foreground text-lg">
+              리니지대리와 함께 성장할 리니지 클래식 대리 전문 파트너를 찾습니다
+            </p>
           </div>
         </section>
 
         {/* Why Join Us */}
         <section className="py-16 bg-black/30 border-b border-white/5">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-white mb-12 text-center">리니지대리에서 일하는 이유</h2>
+            <h2 className="text-3xl font-bold text-white mb-12 text-center">왜 리니지대리인가?</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
               {qualifications.map((item, index) => (
                 <div key={index} className="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-primary/30 transition-all">
@@ -119,7 +121,7 @@ export default function RecruitmentPage() {
         {/* Job Positions */}
         <section className="py-16">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-white mb-12 text-center">채용 공고</h2>
+            <h2 className="text-3xl font-bold text-white mb-12 text-center">채용 공고 안내</h2>
             <div className="max-w-4xl mx-auto space-y-6">
               {jobPositions.map((job) => (
                 <div
@@ -132,7 +134,7 @@ export default function RecruitmentPage() {
                   >
                     <div>
                       <h3 className="text-xl font-bold text-white mb-2">{job.title}</h3>
-                      <p className="text-muted-foreground">면접 시 급여 협의</p>
+                      <p className="text-muted-foreground">리니지 대리 업무 수행 파트너</p>
                     </div>
                     <div className={`text-primary transition-transform ${expandedId === job.id ? 'rotate-180' : ''}`}>
                       ▼
@@ -146,7 +148,7 @@ export default function RecruitmentPage() {
                       <div>
                         <h4 className="font-bold text-white mb-3 flex items-center gap-2">
                           <CheckCircle2 className="w-5 h-5 text-primary" />
-                          필수 조건
+                          지원 조건
                         </h4>
                         <ul className="space-y-2">
                           {job.requirements.map((req, index) => (
@@ -161,28 +163,13 @@ export default function RecruitmentPage() {
                       <div>
                         <h4 className="font-bold text-white mb-3 flex items-center gap-2">
                           <Award className="w-5 h-5 text-primary" />
-                          혜택
+                          활동 혜택
                         </h4>
                         <ul className="space-y-2">
                           {job.benefits.map((benefit, index) => (
                             <li key={index} className="text-gray-300 text-sm flex items-start gap-2">
                               <span className="text-primary mt-1">•</span>
                               {benefit}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      <div>
-                        <h4 className="font-bold text-white mb-3 flex items-center gap-2">
-                          <FileText className="w-5 h-5 text-primary" />
-                          필요 서류
-                        </h4>
-                        <ul className="space-y-2">
-                          {job.documents.map((doc, index) => (
-                            <li key={index} className="text-gray-300 text-sm flex items-start gap-2">
-                              <span className="text-primary mt-1">•</span>
-                              {doc}
                             </li>
                           ))}
                         </ul>
@@ -199,7 +186,7 @@ export default function RecruitmentPage() {
         <section className="py-16 bg-black/30 border-t border-white/5">
           <div className="container mx-auto px-4">
             <div className="max-w-2xl mx-auto">
-              <h2 className="text-3xl font-bold text-white mb-12 text-center">지원하기</h2>
+              <h2 className="text-3xl font-bold text-white mb-12 text-center">리니지 대리 기사 지원하기</h2>
 
               <form onSubmit={handleSubmit} className="bg-white/5 border border-white/10 rounded-xl p-8 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -211,7 +198,7 @@ export default function RecruitmentPage() {
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-primary"
-                      placeholder="이름을 입력하세요"
+                      placeholder="성함을 입력하세요"
                     />
                   </div>
                   <div>
@@ -222,7 +209,7 @@ export default function RecruitmentPage() {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-primary"
-                      placeholder="이메일을 입력하세요"
+                      placeholder="이메일 주소"
                     />
                   </div>
                 </div>
@@ -235,29 +222,29 @@ export default function RecruitmentPage() {
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-primary"
-                    placeholder="010-0000-0000"
+                    placeholder="연락처를 입력하세요"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-white font-bold mb-2">경력 (선택사항)</label>
+                  <label className="block text-white font-bold mb-2">리니지 경력</label>
                   <input
                     type="text"
                     value={formData.experience}
                     onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
                     className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-primary"
-                    placeholder="예: 게임 경력, 기술 등"
+                    placeholder="리니지 플레이 경력 및 서버"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-white font-bold mb-2">자기소개</label>
+                  <label className="block text-white font-bold mb-2">자기소개 및 지원동기</label>
                   <textarea
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     rows={5}
                     className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-primary resize-none"
-                    placeholder="자신의 강점과 지원 동기를 작성해주세요"
+                    placeholder="리니지 대리 기사로서의 강점을 작성해주세요"
                   />
                 </div>
 
@@ -268,10 +255,6 @@ export default function RecruitmentPage() {
                   <Send className="w-5 h-5" />
                   카카오톡으로 지원하기
                 </button>
-
-                <p className="text-xs text-gray-500 text-center">
-                  지원 양식을 작성 후 카카오톡으로 전송됩니다. 빠른 검토를 위해 카카오톡으로 직접 연락주셔도 좋습니다.
-                </p>
               </form>
             </div>
           </div>
@@ -279,17 +262,17 @@ export default function RecruitmentPage() {
 
         {/* CTA Section */}
         <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-2xl mx-auto text-center bg-gradient-to-r from-primary/20 to-cyan-500/20 border border-primary/30 rounded-2xl p-12">
-              <h2 className="text-3xl font-bold text-white mb-4">질문이 있으신가요?</h2>
+          <div className="container mx-auto px-4 text-center">
+            <div className="max-w-2xl mx-auto bg-gradient-to-r from-primary/20 to-cyan-500/20 border border-primary/30 rounded-2xl p-12">
+              <h2 className="text-3xl font-bold text-white mb-4">리니지 대리 전문가를 기다립니다</h2>
               <p className="text-muted-foreground mb-8">
-                채용 관련 문의사항은 카카오톡 오픈채팅을 통해 언제든지 물어볼 수 있습니다.
+                궁금한 사항은 언제든 문의주세요.
               </p>
               <button
                 onClick={() => window.open('https://open.kakao.com/o/sxT1c2ci', '_blank')}
                 className="inline-block bg-primary hover:bg-primary/90 text-black font-bold px-8 py-3 rounded-full transition-all hover:shadow-lg shadow-primary/20 cursor-pointer"
               >
-                카카오톡으로 문의하기
+                카카오톡 문의하기
               </button>
             </div>
           </div>
