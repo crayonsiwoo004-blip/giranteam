@@ -85,7 +85,7 @@ export default function Layout({ children }: LayoutProps) {
               <h4 className="text-lg font-bold text-white mb-4">고객센터</h4>
               <div className="space-y-4">
                 <a 
-                  href="https://open.kakao.com/o/lineage_proxy" 
+                  href="https://open.kakao.com/o/sxT1c2ci" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-[#FEE500] hover:bg-[#FEE500]/90 text-black font-bold px-4 py-2 rounded-lg transition-all text-sm"
