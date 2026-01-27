@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
-import { Star, MessageCircle, Plus, X, Trash2 } from 'lucide-react';
+import { Star, MessageCircle, Plus, X, Trash2, ShieldCheck, LogOut } from 'lucide-react';
 
 interface Review {
   id: number;
@@ -31,12 +31,20 @@ export default function ReviewsPage() {
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [reviewList, setReviewList] = useState<Review[]>([]);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [adminPassword, setAdminPassword] = useState('');
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
   
-  // Load reviews from localStorage on mount
+  // Load reviews and admin status from localStorage on mount
   useEffect(() => {
     const savedReviews = localStorage.getItem('giranteam_reviews');
     if (savedReviews) {
       setReviewList(JSON.parse(savedReviews));
+    }
+    
+    const savedAdmin = localStorage.getItem('giranteam_is_admin');
+    if (savedAdmin === 'true') {
+      setIsAdmin(true);
     }
   }, []);
 
@@ -51,6 +59,26 @@ export default function ReviewsPage() {
     content: '',
     service: '리니지 클래식 대리'
   });
+
+  // Admin Login Logic
+  const handleAdminLogin = () => {
+    // 임시 관리자 비밀번호: giranteam123
+    if (adminPassword === 'giranteam123') {
+      setIsAdmin(true);
+      localStorage.setItem('giranteam_is_admin', 'true');
+      setShowAdminLogin(false);
+      setAdminPassword('');
+      alert('관리자 모드로 전환되었습니다.');
+    } else {
+      alert('비밀번호가 일치하지 않습니다.');
+    }
+  };
+
+  const handleAdminLogout = () => {
+    setIsAdmin(false);
+    localStorage.removeItem('giranteam_is_admin');
+    alert('로그아웃 되었습니다.');
+  };
 
   // Auto-template for the content
   const applyTemplate = (serviceType: string) => {
@@ -83,6 +111,10 @@ export default function ReviewsPage() {
 
   const deleteReview = (id: number, e: React.MouseEvent) => {
     e.stopPropagation();
+    if (!isAdmin) {
+      alert('관리자만 삭제할 수 있습니다.');
+      return;
+    }
     if (window.confirm('이 후기를 삭제하시겠습니까?')) {
       setReviewList(reviewList.filter(r => r.id !== id));
     }
@@ -123,19 +155,80 @@ export default function ReviewsPage() {
 
         <section className="py-8 border-b border-white/5">
           <div className="container mx-auto px-4 max-w-4xl flex justify-between items-center">
-            <h2 className="text-xl font-bold text-white">전체 후기</h2>
-            <button
-              onClick={() => {
-                setShowForm(true);
-                applyTemplate('리니지 클래식 대리');
-              }}
-              className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-black font-bold px-6 py-2 rounded-lg transition-all"
-            >
-              <Plus className="w-5 h-5" />
-              후기 작성하기
-            </button>
+            <div className="flex items-center gap-4">
+              <h2 className="text-xl font-bold text-white">전체 후기</h2>
+              {isAdmin ? (
+                <div className="flex items-center gap-2 bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-bold border border-green-500/30">
+                  <ShieldCheck className="w-3 h-3" />
+                  관리자 모드
+                </div>
+              ) : (
+                <button 
+                  onClick={() => setShowAdminLogin(true)}
+                  className="text-xs text-gray-500 hover:text-gray-400 underline"
+                >
+                  관리자 로그인
+                </button>
+              )}
+            </div>
+            <div className="flex gap-3">
+              {isAdmin && (
+                <button
+                  onClick={handleAdminLogout}
+                  className="flex items-center gap-2 bg-white/5 hover:bg-white/10 text-gray-400 px-4 py-2 rounded-lg transition-all text-sm"
+                >
+                  <LogOut className="w-4 h-4" />
+                  로그아웃
+                </button>
+              )}
+              <button
+                onClick={() => {
+                  setShowForm(true);
+                  applyTemplate('리니지 클래식 대리');
+                }}
+                className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-black font-bold px-6 py-2 rounded-lg transition-all"
+              >
+                <Plus className="w-5 h-5" />
+                후기 작성하기
+              </button>
+            </div>
           </div>
         </section>
+
+        {/* Admin Login Modal */}
+        {showAdminLogin && (
+          <div className="fixed inset-0 bg-black/90 z-[60] flex items-center justify-center p-4">
+            <div className="bg-background rounded-2xl border border-white/10 p-8 max-w-sm w-full">
+              <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                <ShieldCheck className="text-primary" />
+                관리자 인증
+              </h3>
+              <input
+                type="password"
+                value={adminPassword}
+                onChange={(e) => setAdminPassword(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleAdminLogin()}
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white mb-4 focus:border-primary outline-none"
+                placeholder="비밀번호를 입력하세요"
+                autoFocus
+              />
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowAdminLogin(false)}
+                  className="flex-1 bg-white/5 hover:bg-white/10 text-white font-bold py-3 rounded-xl transition-all"
+                >
+                  취소
+                </button>
+                <button
+                  onClick={handleAdminLogin}
+                  className="flex-1 bg-primary hover:bg-primary/90 text-black font-bold py-3 rounded-xl transition-all"
+                >
+                  확인
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Review Form Modal */}
         {showForm && (
@@ -219,13 +312,16 @@ export default function ReviewsPage() {
                   className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 hover:bg-white/10 transition-all cursor-pointer relative group"
                   onClick={() => setExpandedId(expandedId === review.id ? null : review.id)}
                 >
-                  <button
-                    onClick={(e) => deleteReview(review.id, e)}
-                    className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
-                    title="삭제"
-                  >
-                    <Trash2 className="w-5 h-5" />
-                  </button>
+                  {/* Delete button only visible for admin */}
+                  {isAdmin && (
+                    <button
+                      onClick={(e) => deleteReview(review.id, e)}
+                      className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                      title="삭제"
+                    >
+                      <Trash2 className="w-5 h-5" />
+                    </button>
+                  )}
 
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                     <div className="flex items-center gap-4">
