@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
-import { Star, MessageCircle, Plus, X } from 'lucide-react';
+import { Star, MessageCircle, Plus, X, Trash2 } from 'lucide-react';
 
 interface Review {
   id: number;
@@ -11,66 +11,16 @@ interface Review {
   service: string;
 }
 
-const initialReviews: Review[] = [
-  {
-    id: 1,
-    author: '사용자A',
-    rating: 5,
-    date: '2024년 1월 15일',
-    content: '정말 안전하고 신뢰할 수 있는 서비스였습니다. 작업 중간중간 진행 상황을 자세히 알려주셔서 마음 놓고 맡길 수 있었어요. 강력 추천합니다!',
-    service: '120시간 레벨업'
-  },
-  {
-    id: 2,
-    author: '사용자B',
-    rating: 5,
-    date: '2024년 1월 12일',
-    content: '카카오톡으로 실시간 소통이 가능해서 정말 좋았습니다. 작업 완료 후 계정을 깔끔하게 반환해주셨고, 보안도 철저히 지켜주셨어요.',
-    service: '11시간 사냥'
-  },
-  {
-    id: 3,
-    author: '사용자C',
-    rating: 5,
-    date: '2024년 1월 10일',
-    content: '처음 이용했는데 생각보다 훨씬 전문적이었습니다. 계약 과정도 투명하고, 작업 중 문제가 생겼을 때도 빠르게 대처해주셨어요.',
-    service: '15시간 던전'
-  },
-  {
-    id: 4,
-    author: '사용자D',
-    rating: 5,
-    date: '2024년 1월 8일',
-    content: '여러 번 이용했는데 매번 만족스럽습니다. 기사님들이 정말 친절하고 전문적이에요. 리니지 대리는 정말 믿을 수 있는 서비스입니다.',
-    service: '120시간 레벨업'
-  },
-  {
-    id: 5,
-    author: '사용자E',
-    rating: 5,
-    date: '2024년 1월 5일',
-    content: '계정 보안에 대해 정말 신경 써주셨습니다. 이중 인증도 설정해주시고, 작업 완료 후 비밀번호 변경을 권장해주셔서 정말 안심이 됩니다.',
-    service: '11시간 사냥'
-  },
-  {
-    id: 6,
-    author: '사용자F',
-    rating: 5,
-    date: '2024년 1월 1일',
-    content: '가격도 합리적이고, 서비스 품질도 정말 좋습니다. 다른 대리 서비스와는 다르게 정말 투명하게 진행되었어요. 계속 이용할 예정입니다!',
-    service: '15시간 던전'
-  }
-];
-
-const StarRating = ({ rating }: { rating: number }) => {
+const StarRating = ({ rating, setRating }: { rating: number, setRating?: (r: number) => void }) => {
   return (
     <div className="flex gap-1">
       {[...Array(5)].map((_, i) => (
         <Star
           key={i}
-          className={`w-4 h-4 ${
+          onClick={() => setRating && setRating(i + 1)}
+          className={`w-5 h-5 ${
             i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-600'
-          }`}
+          } ${setRating ? 'cursor-pointer hover:scale-110 transition-transform' : ''}`}
         />
       ))}
     </div>
@@ -80,252 +30,231 @@ const StarRating = ({ rating }: { rating: number }) => {
 export default function ReviewsPage() {
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [showForm, setShowForm] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [adminPassword, setAdminPassword] = useState('');
-  const [reviewList, setReviewList] = useState(initialReviews);
+  const [reviewList, setReviewList] = useState<Review[]>([]);
+  
+  // Load reviews from localStorage on mount
+  useEffect(() => {
+    const savedReviews = localStorage.getItem('giranteam_reviews');
+    if (savedReviews) {
+      setReviewList(JSON.parse(savedReviews));
+    }
+  }, []);
+
+  // Save reviews to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('giranteam_reviews', JSON.stringify(reviewList));
+  }, [reviewList]);
+
   const [formData, setFormData] = useState({
     author: '',
     rating: 5,
     content: '',
-    service: ''
+    service: '리니지 클래식 대리'
   });
-  
-  const averageRating = (reviewList.reduce((sum, r) => sum + r.rating, 0) / reviewList.length).toFixed(1);
 
-  const handleAdminLogin = () => {
-    if (adminPassword === 'admin123') {
-      setIsAdmin(true);
-      setShowForm(false);
-      setAdminPassword('');
-    } else {
-      alert('비밀번호가 틀렸습니다.');
-    }
+  // Auto-template for the content
+  const applyTemplate = (serviceType: string) => {
+    const templates: Record<string, string> = {
+      '리니지 클래식 대리': '[리니지 클래식 대리 후기]\n\n이용 서버: \n작성 내용: 정말 안전하고 빠르게 작업해주셨습니다. 특히 소통이 잘 되어서 믿고 맡길 수 있었어요. 다음에 또 이용하겠습니다!',
+      '리니지 육성 대리': '[리니지 육성 대리 후기]\n\n목표 레벨: \n작성 내용: 번거로운 육성 과정을 대신해주셔서 정말 편했습니다. 보안도 철저하고 진행 상황도 매일 알려주셔서 안심되었습니다.',
+      '기타 서비스': '[기타 서비스 이용 후기]\n\n이용 내용: \n작성 내용: 친절한 상담과 확실한 작업 처리에 감동받았습니다. 추천합니다!'
+    };
+    setFormData(prev => ({ ...prev, service: serviceType, content: templates[serviceType] || templates['리니지 클래식 대리'] }));
   };
 
   const handleAddReview = () => {
-    if (formData.author && formData.content && formData.service) {
+    if (formData.author && formData.content) {
       const newReview: Review = {
-        id: Math.max(...reviewList.map(r => r.id), 0) + 1,
+        id: Date.now(),
         author: formData.author,
         rating: formData.rating,
-        date: new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }).replace(/\s/g, '년 ').replace(/년\s*$/, '일'),
+        date: new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }),
         content: formData.content,
         service: formData.service
       };
       setReviewList([newReview, ...reviewList]);
-      setFormData({ author: '', rating: 5, content: '', service: '' });
-      setIsAdmin(false);
-      alert('후기가 추가되었습니다.');
+      setFormData({ author: '', rating: 5, content: '', service: '리니지 클래식 대리' });
+      setShowForm(false);
+      alert('후기가 성공적으로 등록되었습니다.');
     } else {
-      alert('모든 필드를 입력해주세요.');
+      alert('이름과 내용을 입력해주세요.');
     }
   };
 
+  const deleteReview = (id: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (window.confirm('이 후기를 삭제하시겠습니까?')) {
+      setReviewList(reviewList.filter(r => r.id !== id));
+    }
+  };
+
+  const averageRating = reviewList.length > 0 
+    ? (reviewList.reduce((sum, r) => sum + r.rating, 0) / reviewList.length).toFixed(1)
+    : "5.0";
+
   return (
     <Layout>
+      {/* Structured Data for SEO */}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org/",
+          "@type": "Product",
+          "name": "리니지대리 서비스",
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": averageRating,
+            "reviewCount": reviewList.length || 1
+          }
+        })}
+      </script>
+
       <div className="pt-20 pb-12">
-        {/* Header */}
         <section className="py-16 bg-gradient-to-b from-primary/10 to-transparent border-b border-white/5">
-          <div className="container mx-auto px-4">
-            <div className="text-center">
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">고객 후기</h1>
-              <p className="text-muted-foreground text-lg mb-8">리니지대리를 이용하신 고객님들의 생생한 후기를 확인해보세요</p>
-
-              {/* Rating Summary */}
-              <div className="flex flex-col items-center gap-4">
-                <div className="text-5xl font-bold text-primary">{averageRating}</div>
-                <div className="flex gap-2">
-                  <StarRating rating={5} />
-                </div>
-                <p className="text-muted-foreground">총 {reviewList.length}개의 후기</p>
-              </div>
+          <div className="container mx-auto px-4 text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">고객 후기</h1>
+            <p className="text-muted-foreground text-lg mb-8">리니지 대리 및 리니지 클래식 대리 이용 고객님들의 실제 후기입니다.</p>
+            <div className="flex flex-col items-center gap-4">
+              <div className="text-5xl font-bold text-primary">{averageRating}</div>
+              <StarRating rating={Math.round(Number(averageRating))} />
+              <p className="text-muted-foreground">총 {reviewList.length}개의 후기</p>
             </div>
           </div>
         </section>
 
-        {/* Admin Button */}
         <section className="py-8 border-b border-white/5">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto flex justify-end">
-              {!isAdmin ? (
-                <button
-                  onClick={() => setShowForm(true)}
-                  className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-black font-bold px-6 py-2 rounded-lg transition-all"
-                >
-                  <Plus className="w-5 h-5" />
-                  글쓰기
-                </button>
-              ) : (
-                <button
-                  onClick={() => setIsAdmin(false)}
-                  className="text-muted-foreground hover:text-white transition-colors text-sm"
-                >
-                  관리자 모드 종료
-                </button>
-              )}
-            </div>
+          <div className="container mx-auto px-4 max-w-4xl flex justify-between items-center">
+            <h2 className="text-xl font-bold text-white">전체 후기</h2>
+            <button
+              onClick={() => {
+                setShowForm(true);
+                applyTemplate('리니지 클래식 대리');
+              }}
+              className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-black font-bold px-6 py-2 rounded-lg transition-all"
+            >
+              <Plus className="w-5 h-5" />
+              후기 작성하기
+            </button>
           </div>
         </section>
 
-        {/* Admin Login Modal */}
-        {showForm && !isAdmin && (
-          <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-            <div className="bg-background rounded-2xl border border-white/10 p-8 max-w-md w-full animate-in fade-in">
+        {/* Review Form Modal */}
+        {showForm && (
+          <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 overflow-y-auto">
+            <div className="bg-background rounded-2xl border border-white/10 p-6 md:p-8 max-w-2xl w-full my-8">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold text-white">관리자 인증</h3>
-                <button
-                  onClick={() => setShowForm(false)}
-                  className="text-muted-foreground hover:text-white"
-                >
-                  <X className="w-5 h-5" />
+                <h3 className="text-2xl font-bold text-white">후기 작성</h3>
+                <button onClick={() => setShowForm(false)} className="text-muted-foreground hover:text-white">
+                  <X className="w-6 h-6" />
                 </button>
               </div>
-              <input
-                type="password"
-                placeholder="관리자 비밀번호"
-                value={adminPassword}
-                onChange={(e) => setAdminPassword(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleAdminLogin()}
-                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-muted-foreground mb-4"
-              />
-              <div className="flex gap-2">
-                <button
-                  onClick={handleAdminLogin}
-                  className="flex-1 bg-primary hover:bg-primary/90 text-black font-bold py-2 rounded-lg transition-all"
-                >
-                  확인
-                </button>
-                <button
-                  onClick={() => setShowForm(false)}
-                  className="flex-1 bg-white/10 hover:bg-white/20 text-white font-bold py-2 rounded-lg transition-all"
-                >
-                  취소
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+              
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-400 mb-2">서비스 선택 (자동 양식 적용)</label>
+                  <div className="flex flex-wrap gap-2">
+                    {['리니지 클래식 대리', '리니지 육성 대리', '기타 서비스'].map(s => (
+                      <button
+                        key={s}
+                        onClick={() => applyTemplate(s)}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                          formData.service === s ? 'bg-primary text-black' : 'bg-white/5 text-gray-400 hover:bg-white/10'
+                        }`}
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
-        {/* Add Review Form */}
-        {isAdmin && (
-          <section className="py-8 bg-white/5 border-b border-white/5">
-            <div className="container mx-auto px-4">
-              <div className="max-w-2xl mx-auto bg-white/5 border border-white/10 rounded-2xl p-8">
-                <h3 className="text-2xl font-bold text-white mb-6">새 후기 추가</h3>
-                <div className="space-y-4">
-                  <input
-                    type="text"
-                    placeholder="작성자 이름"
-                    value={formData.author}
-                    onChange={(e) => setFormData({...formData, author: e.target.value})}
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-muted-foreground"
-                  />
-                  <input
-                    type="text"
-                    placeholder="서비스 (예: 120시간 레벨업)"
-                    value={formData.service}
-                    onChange={(e) => setFormData({...formData, service: e.target.value})}
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-muted-foreground"
-                  />
-                  <select
-                    value={formData.rating}
-                    onChange={(e) => setFormData({...formData, rating: parseInt(e.target.value)})}
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white"
-                  >
-                    <option value={5}>⭐⭐⭐⭐⭐ (5.0)</option>
-                    <option value={4}>⭐⭐⭐⭐ (4.0)</option>
-                    <option value={3}>⭐⭐⭐ (3.0)</option>
-                  </select>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-400 mb-2">이름 (또는 닉네임)</label>
+                    <input
+                      type="text"
+                      value={formData.author}
+                      onChange={(e) => setFormData({...formData, author: e.target.value})}
+                      className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-primary outline-none"
+                      placeholder="예: 리니지매니아"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-400 mb-2">평점</label>
+                    <div className="py-2">
+                      <StarRating rating={formData.rating} setRating={(r) => setFormData({...formData, rating: r})} />
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-400 mb-2">상세 내용</label>
                   <textarea
-                    placeholder="후기 내용"
                     value={formData.content}
                     onChange={(e) => setFormData({...formData, content: e.target.value})}
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-muted-foreground h-24 resize-none"
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white h-48 resize-none focus:border-primary outline-none"
                   />
-                  <div className="flex gap-2">
-                    <button
-                      onClick={handleAddReview}
-                      className="flex-1 bg-primary hover:bg-primary/90 text-black font-bold py-2 rounded-lg transition-all"
-                    >
-                      추가
-                    </button>
-                    <button
-                      onClick={() => setIsAdmin(false)}
-                      className="flex-1 bg-white/10 hover:bg-white/20 text-white font-bold py-2 rounded-lg transition-all"
-                    >
-                      취소
-                    </button>
-                  </div>
                 </div>
+
+                <button
+                  onClick={handleAddReview}
+                  className="w-full bg-primary hover:bg-primary/90 text-black font-bold py-4 rounded-xl text-lg transition-all"
+                >
+                  후기 등록하기
+                </button>
               </div>
             </div>
-          </section>
+          </div>
         )}
 
-        {/* Reviews Grid */}
         <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto space-y-4">
-              {reviewList.map(review => (
+          <div className="container mx-auto px-4 max-w-4xl space-y-6">
+            {reviewList.length === 0 ? (
+              <div className="text-center py-20 bg-white/5 border border-dashed border-white/10 rounded-2xl">
+                <MessageCircle className="w-12 h-12 text-gray-600 mx-auto mb-4" />
+                <p className="text-muted-foreground">아직 등록된 후기가 없습니다. 첫 후기를 남겨주세요!</p>
+              </div>
+            ) : (
+              reviewList.map(review => (
                 <div
                   key={review.id}
-                  className="bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all cursor-pointer"
+                  className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 hover:bg-white/10 transition-all cursor-pointer relative group"
                   onClick={() => setExpandedId(expandedId === review.id ? null : review.id)}
                 >
-                  <div className="flex items-start justify-between gap-4 mb-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-                          <span className="text-primary font-bold">{review.author[review.author.length - 1]}</span>
-                        </div>
-                        <div>
-                          <p className="font-bold text-white">{review.author}</p>
-                          <p className="text-sm text-muted-foreground">{review.date}</p>
-                        </div>
+                  <button
+                    onClick={(e) => deleteReview(review.id, e)}
+                    className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                    title="삭제"
+                  >
+                    <Trash2 className="w-5 h-5" />
+                  </button>
+
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xl">
+                        {review.author[0]}
                       </div>
-                      <div className="flex items-center gap-2 mb-3">
-                        <StarRating rating={review.rating} />
-                        <span className="text-sm text-muted-foreground">({review.rating}.0)</span>
-                      </div>
-                      <div className="inline-block px-3 py-1 bg-primary/20 text-primary text-xs font-medium rounded-full">
-                        {review.service}
+                      <div>
+                        <h4 className="text-white font-bold text-lg">{review.author}</h4>
+                        <p className="text-sm text-muted-foreground">{review.date}</p>
                       </div>
                     </div>
-                    <MessageCircle className="w-5 h-5 text-primary flex-shrink-0" />
+                    <div className="flex flex-col items-start md:items-end gap-2">
+                      <StarRating rating={review.rating} />
+                      <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full border border-primary/20">
+                        {review.service}
+                      </span>
+                    </div>
                   </div>
 
-                  {/* Review Content */}
-                  <p className="text-gray-300 leading-relaxed line-clamp-2">{review.content}</p>
-
-                  {/* Expanded Content */}
-                  {expandedId === review.id && (
-                    <div className="mt-4 pt-4 border-t border-white/10 animate-in fade-in slide-in-from-top-2 duration-300">
-                      <p className="text-gray-300 leading-relaxed">{review.content}</p>
-                    </div>
+                  <p className={`text-gray-300 leading-relaxed whitespace-pre-wrap ${expandedId === review.id ? '' : 'line-clamp-3'}`}>
+                    {review.content}
+                  </p>
+                  
+                  {!expandedId && review.content.length > 150 && (
+                    <button className="mt-4 text-primary text-sm font-bold">더 보기...</button>
                   )}
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="py-16 bg-black/50 border-t border-white/5">
-          <div className="container mx-auto px-4">
-            <div className="max-w-2xl mx-auto text-center">
-              <h2 className="text-3xl font-bold text-white mb-4">당신의 경험을 공유해주세요</h2>
-              <p className="text-muted-foreground mb-8">
-                리니지대리 서비스를 이용하신 후기를 남겨주시면, 다른 고객님들에게 큰 도움이 됩니다.
-              </p>
-              <a
-                href="https://open.kakao.com/o/lineage_proxy"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block bg-primary hover:bg-primary/90 text-black font-bold px-8 py-3 rounded-full transition-all hover:shadow-lg shadow-primary/20"
-              >
-                카카오톡으로 후기 남기기
-              </a>
-            </div>
+              ))
+            )}
           </div>
         </section>
       </div>
