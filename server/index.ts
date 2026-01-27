@@ -20,6 +20,11 @@ async function startServer() {
   // Check if directory exists or handle gracefully
   app.use(express.static(staticPath));
 
+  // Health check endpoint to prevent sleep
+  app.get("/api/health", (_req, res) => {
+    res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
+  });
+
   // Handle client-side routing - serve index.html for all routes
   app.get("*", (_req, res) => {
     // res.sendFile should handle absolute paths
