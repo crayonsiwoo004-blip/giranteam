@@ -57,11 +57,20 @@ export default function Layout({ children }: LayoutProps) {
             
             <div>
               <h4 className="text-lg font-bold text-white mb-4">고객센터</h4>
-              <ul className="space-y-2 text-muted-foreground">
-                <li>카카오톡: lineage_help</li>
-                <li>텔레그램: @lineage_proxy</li>
-                <li>운영시간: 24시간 연중무휴</li>
-              </ul>
+              <div className="space-y-4">
+                <a 
+                  href="https://open.kakao.com/o/lineage_proxy" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-[#FEE500] hover:bg-[#FEE500]/90 text-black font-bold px-4 py-2 rounded-lg transition-all text-sm"
+                >
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" alt="Kakao" className="w-4 h-4" />
+                  카카오톡 오픈채팅 상담
+                </a>
+                <ul className="space-y-2 text-muted-foreground">
+                  <li>운영시간: 24시간 연중무휴</li>
+                </ul>
+              </div>
             </div>
             
             <div>
@@ -75,11 +84,10 @@ export default function Layout({ children }: LayoutProps) {
           </div>
           
           <div className="border-t border-white/10 pt-8 text-center text-sm text-muted-foreground">
-            <p>&copy; 2026 리니지대리. All rights reserved. 본 사이트는 포트폴리오 목적으로 제작되었습니다.</p>
+            <p>&copy; 2026 리니지대리. All rights reserved.</p>
           </div>
         </div>
       </footer>
     </div>
   );
 }
-
