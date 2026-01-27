@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -10,8 +10,34 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
+  useEffect(() => {
+    // 마우스 우클릭 방지
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+    };
+
+    // 드래그 및 복사 방지
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ctrl+C, Ctrl+V, Ctrl+U (소스보기), Ctrl+S, Ctrl+P, F12 (개발자도구) 방지
+      if (
+        (e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'u' || e.key === 's' || e.key === 'p' || e.key === 'a')) ||
+        e.key === 'F12'
+      ) {
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground font-sans selection:bg-primary selection:text-primary-foreground">
+    <div className="min-h-screen flex flex-col bg-background text-foreground font-sans selection:bg-none select-none">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-background to-background/95 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/20">
         <div className="container mx-auto px-4 h-20 flex items-center justify-between">
