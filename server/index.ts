@@ -11,16 +11,23 @@ async function startServer() {
   const server = createServer(app);
 
   // Serve static files from dist/public in production
+  // path.resolve(__dirname, "..", "dist", "public") is used for development/build consistency
   const staticPath =
     process.env.NODE_ENV === "production"
       ? path.resolve(__dirname, "public")
       : path.resolve(__dirname, "..", "dist", "public");
 
+  // Check if directory exists or handle gracefully
   app.use(express.static(staticPath));
 
   // Handle client-side routing - serve index.html for all routes
   app.get("*", (_req, res) => {
-    res.sendFile(path.join(staticPath, "index.html"));
+    // res.sendFile should handle absolute paths
+    res.sendFile(path.join(staticPath, "index.html"), (err) => {
+      if (err) {
+        res.status(404).send("Frontend build not found. Please run 'npm run build' first.");
+      }
+    });
   });
 
   const port = process.env.PORT || 3000;
