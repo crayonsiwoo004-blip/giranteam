@@ -15,6 +15,17 @@ export default function Home() {
         <meta name="description" content="리니지 대리, 리니지 클래식 대리 및 육성 대리 전문 서비스입니다. 다년간의 노하우와 전문 기사 배정으로 안전하고 신속한 대리 서비스를 약속드립니다." />
         <meta name="keywords" content="리니지 대리, 리니지 클래식 대리, 리니지 육성 대리, 리니지 클래식 육성, 게임 대리 부주" />
         <link rel="canonical" href="https://giranteam.onrender.com" />
+        
+        {/* WebSite Structured Data for Google Site Name */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "리니지대리",
+            "alternateName": ["Lineage Proxy", "리니지클래식대리"],
+            "url": "https://giranteam.onrender.com"
+          })}
+        </script>
       </head>
 
       {/* Hero Section */}
