@@ -1,0 +1,14 @@
+name: Keep Render Server Awake
+
+on:
+  schedule:
+    - cron: '*/13 * * * *'
+  workflow_dispatch:
+
+jobs:
+  keep-awake:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send GET Request
+        run: |
+          curl -s -o /dev/null -w "Status: %{http_code}\n" https://giranteam.onrender.com/api/health
