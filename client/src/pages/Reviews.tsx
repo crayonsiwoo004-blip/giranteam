@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
-import { Star, MessageCircle, Plus, X, Trash2, ShieldCheck, LogOut } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Star, MessageSquare, Plus, Trash2, ShieldCheck, LogOut, Lock, X } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface Review {
-  id: number;
+  id: string;
   author: string;
-  rating: number;
   date: string;
+  rating: number;
   content: string;
   service: string;
 }
@@ -28,30 +31,13 @@ const StarRating = ({ rating, setRating }: { rating: number, setRating?: (r: num
 };
 
 export default function ReviewsPage() {
-  const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [showForm, setShowForm] = useState(false);
-  const [reviewList, setReviewList] = useState<Review[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [adminPassword, setAdminPassword] = useState('');
   const [showAdminLogin, setShowAdminLogin] = useState(false);
-  
-  // Load reviews and admin status from localStorage on mount
-  useEffect(() => {
-    const savedReviews = localStorage.getItem('giranteam_reviews');
-    if (savedReviews) {
-      setReviewList(JSON.parse(savedReviews));
-    }
-    
-    const savedAdmin = localStorage.getItem('giranteam_is_admin');
-    if (savedAdmin === 'true') {
-      setIsAdmin(true);
-    }
-  }, []);
-
-  // Save reviews to localStorage whenever they change
-  useEffect(() => {
-    localStorage.setItem('giranteam_reviews', JSON.stringify(reviewList));
-  }, [reviewList]);
+  const [adminPassword, setAdminPassword] = useState('');
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const [formData, setFormData] = useState({
     author: '',
@@ -60,27 +46,44 @@ export default function ReviewsPage() {
     service: '리니지 클래식 대리'
   });
 
-  // Admin Login Logic
+  const fetchReviews = async () => {
+    try {
+      const response = await fetch('/api/reviews');
+      if (response.ok) {
+        const data = await response.json();
+        setReviews(data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch reviews:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchReviews();
+    const savedAdmin = localStorage.getItem('giranteam_is_admin');
+    if (savedAdmin === 'true') {
+      setIsAdmin(true);
+    }
+  }, []);
+
   const handleAdminLogin = () => {
-    // 임시 관리자 비밀번호: giranteam123
     if (adminPassword === 'giranteam123') {
       setIsAdmin(true);
       localStorage.setItem('giranteam_is_admin', 'true');
       setShowAdminLogin(false);
       setAdminPassword('');
-      alert('관리자 모드로 전환되었습니다.');
+      toast({ title: "관리자 인증 성공", description: "이제 후기를 관리할 수 있습니다." });
     } else {
-      alert('비밀번호가 일치하지 않습니다.');
+      toast({ title: "인증 실패", description: "비밀번호가 올바르지 않습니다.", variant: "destructive" });
     }
   };
 
   const handleAdminLogout = () => {
     setIsAdmin(false);
     localStorage.removeItem('giranteam_is_admin');
-    alert('로그아웃 되었습니다.');
+    toast({ title: "로그아웃", description: "관리자 모드가 해제되었습니다." });
   };
 
-  // Auto-template for the content
   const applyTemplate = (serviceType: string) => {
     const templates: Record<string, string> = {
       '리니지 클래식 대리': '[리니지 클래식 대리 후기]\n\n이용 서버: \n작성 내용: 정말 안전하고 빠르게 작업해주셨습니다. 특히 소통이 잘 되어서 믿고 맡길 수 있었어요. 다음에 또 이용하겠습니다!',
@@ -90,43 +93,56 @@ export default function ReviewsPage() {
     setFormData(prev => ({ ...prev, service: serviceType, content: templates[serviceType] || templates['리니지 클래식 대리'] }));
   };
 
-  const handleAddReview = () => {
-    if (formData.author && formData.content) {
-      const newReview: Review = {
-        id: Date.now(),
-        author: formData.author,
-        rating: formData.rating,
-        date: new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }),
-        content: formData.content,
-        service: formData.service
-      };
-      setReviewList([newReview, ...reviewList]);
-      setFormData({ author: '', rating: 5, content: '', service: '리니지 클래식 대리' });
-      setShowForm(false);
-      alert('후기가 성공적으로 등록되었습니다.');
-    } else {
-      alert('이름과 내용을 입력해주세요.');
-    }
-  };
-
-  const deleteReview = (id: number, e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!isAdmin) {
-      alert('관리자만 삭제할 수 있습니다.');
+  const handleAddReview = async () => {
+    if (!formData.author || !formData.content) {
+      toast({ title: "입력 오류", description: "이름과 내용을 모두 입력해주세요.", variant: "destructive" });
       return;
     }
-    if (window.confirm('이 후기를 삭제하시겠습니까?')) {
-      setReviewList(reviewList.filter(r => r.id !== id));
+
+    try {
+      const response = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        toast({ title: "후기 등록 완료", description: "모든 방문자가 이 후기를 볼 수 있습니다." });
+        setFormData({ author: '', rating: 5, content: '', service: '리니지 클래식 대리' });
+        setShowForm(false);
+        fetchReviews();
+      }
+    } catch (error) {
+      toast({ title: "등록 실패", description: "서버 통신 중 오류가 발생했습니다.", variant: "destructive" });
     }
   };
 
-  const averageRating = reviewList.length > 0 
-    ? (reviewList.reduce((sum, r) => sum + r.rating, 0) / reviewList.length).toFixed(1)
+  const deleteReview = async (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!window.confirm('이 후기를 삭제하시겠습니까?')) return;
+
+    try {
+      const response = await fetch(`/api/reviews/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: 'giranteam123' })
+      });
+
+      if (response.ok) {
+        toast({ title: "삭제 완료", description: "후기가 서버에서 삭제되었습니다." });
+        fetchReviews();
+      }
+    } catch (error) {
+      toast({ title: "삭제 실패", description: "서버 통신 중 오류가 발생했습니다.", variant: "destructive" });
+    }
+  };
+
+  const averageRating = reviews.length > 0 
+    ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)
     : "5.0";
 
   return (
     <Layout>
-      {/* Structured Data for SEO */}
       <script type="application/ld+json">
         {JSON.stringify({
           "@context": "https://schema.org/",
@@ -135,12 +151,12 @@ export default function ReviewsPage() {
           "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": averageRating,
-            "reviewCount": reviewList.length || 1
+            "reviewCount": reviews.length || 1
           }
         })}
       </script>
 
-      <div className="pt-20 pb-12">
+      <div className="pt-20 pb-12 min-h-screen bg-background">
         <section className="py-16 bg-gradient-to-b from-primary/10 to-transparent border-b border-white/5">
           <div className="container mx-auto px-4 text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">고객 후기</h1>
@@ -148,7 +164,7 @@ export default function ReviewsPage() {
             <div className="flex flex-col items-center gap-4">
               <div className="text-5xl font-bold text-primary">{averageRating}</div>
               <StarRating rating={Math.round(Number(averageRating))} />
-              <p className="text-muted-foreground">총 {reviewList.length}개의 후기</p>
+              <p className="text-muted-foreground">총 {reviews.length}개의 후기</p>
             </div>
           </div>
         </section>
@@ -198,9 +214,9 @@ export default function ReviewsPage() {
         {/* Admin Login Modal */}
         {showAdminLogin && (
           <div className="fixed inset-0 bg-black/90 z-[60] flex items-center justify-center p-4">
-            <div className="bg-background rounded-2xl border border-white/10 p-8 max-w-sm w-full">
+            <div className="bg-card rounded-2xl border border-white/10 p-8 max-w-sm w-full">
               <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                <ShieldCheck className="text-primary" />
+                <Lock className="text-primary w-5 h-5" />
                 관리자 인증
               </h3>
               <input
@@ -208,7 +224,7 @@ export default function ReviewsPage() {
                 value={adminPassword}
                 onChange={(e) => setAdminPassword(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleAdminLogin()}
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white mb-4 focus:border-primary outline-none"
+                className="w-full bg-background border border-white/10 rounded-lg px-4 py-3 text-white mb-4 focus:border-primary outline-none"
                 placeholder="비밀번호를 입력하세요"
                 autoFocus
               />
@@ -233,7 +249,7 @@ export default function ReviewsPage() {
         {/* Review Form Modal */}
         {showForm && (
           <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 overflow-y-auto">
-            <div className="bg-background rounded-2xl border border-white/10 p-6 md:p-8 max-w-2xl w-full my-8">
+            <div className="bg-card rounded-2xl border border-white/10 p-6 md:p-8 max-w-2xl w-full my-8">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-2xl font-bold text-white">후기 작성</h3>
                 <button onClick={() => setShowForm(false)} className="text-muted-foreground hover:text-white">
@@ -266,7 +282,7 @@ export default function ReviewsPage() {
                       type="text"
                       value={formData.author}
                       onChange={(e) => setFormData({...formData, author: e.target.value})}
-                      className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-primary outline-none"
+                      className="w-full bg-background border border-white/10 rounded-lg px-4 py-2 text-white focus:border-primary outline-none"
                       placeholder="예: 리니지매니아"
                     />
                   </div>
@@ -283,7 +299,7 @@ export default function ReviewsPage() {
                   <textarea
                     value={formData.content}
                     onChange={(e) => setFormData({...formData, content: e.target.value})}
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white h-48 resize-none focus:border-primary outline-none"
+                    className="w-full bg-background border border-white/10 rounded-lg px-4 py-2 text-white h-48 resize-none focus:border-primary outline-none"
                   />
                 </div>
 
@@ -300,19 +316,18 @@ export default function ReviewsPage() {
 
         <section className="py-16">
           <div className="container mx-auto px-4 max-w-4xl space-y-6">
-            {reviewList.length === 0 ? (
+            {reviews.length === 0 ? (
               <div className="text-center py-20 bg-white/5 border border-dashed border-white/10 rounded-2xl">
-                <MessageCircle className="w-12 h-12 text-gray-600 mx-auto mb-4" />
+                <MessageSquare className="w-12 h-12 text-gray-600 mx-auto mb-4" />
                 <p className="text-muted-foreground">아직 등록된 후기가 없습니다. 첫 후기를 남겨주세요!</p>
               </div>
             ) : (
-              reviewList.map(review => (
+              reviews.map(review => (
                 <div
                   key={review.id}
-                  className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 hover:bg-white/10 transition-all cursor-pointer relative group"
+                  className="bg-card border border-white/10 rounded-2xl p-6 md:p-8 hover:bg-white/5 transition-all cursor-pointer relative group"
                   onClick={() => setExpandedId(expandedId === review.id ? null : review.id)}
                 >
-                  {/* Delete button only visible for admin */}
                   {isAdmin && (
                     <button
                       onClick={(e) => deleteReview(review.id, e)}
@@ -345,7 +360,7 @@ export default function ReviewsPage() {
                     {review.content}
                   </p>
                   
-                  {!expandedId && review.content.length > 150 && (
+                  {expandedId !== review.id && review.content.length > 150 && (
                     <button className="mt-4 text-primary text-sm font-bold">더 보기...</button>
                   )}
                 </div>
