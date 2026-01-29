@@ -3,7 +3,7 @@ import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Star, MessageSquare, Plus, Trash2, ShieldCheck, LogOut, Lock, X } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 
 interface Review {
   id: string;
@@ -37,7 +37,6 @@ export default function ReviewsPage() {
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [adminPassword, setAdminPassword] = useState('');
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const { toast } = useToast();
 
   const [formData, setFormData] = useState({
     author: '',
@@ -72,16 +71,16 @@ export default function ReviewsPage() {
       localStorage.setItem('giranteam_is_admin', 'true');
       setShowAdminLogin(false);
       setAdminPassword('');
-      toast({ title: "관리자 인증 성공", description: "이제 후기를 관리할 수 있습니다." });
+      toast.success("관리자 인증 성공", { description: "이제 후기를 관리할 수 있습니다." });
     } else {
-      toast({ title: "인증 실패", description: "비밀번호가 올바르지 않습니다.", variant: "destructive" });
+      toast.error("인증 실패", { description: "비밀번호가 올바르지 않습니다." });
     }
   };
 
   const handleAdminLogout = () => {
     setIsAdmin(false);
     localStorage.removeItem('giranteam_is_admin');
-    toast({ title: "로그아웃", description: "관리자 모드가 해제되었습니다." });
+    toast.info("로그아웃", { description: "관리자 모드가 해제되었습니다." });
   };
 
   const applyTemplate = (serviceType: string) => {
@@ -95,7 +94,7 @@ export default function ReviewsPage() {
 
   const handleAddReview = async () => {
     if (!formData.author || !formData.content) {
-      toast({ title: "입력 오류", description: "이름과 내용을 모두 입력해주세요.", variant: "destructive" });
+      toast.error("입력 오류", { description: "이름과 내용을 모두 입력해주세요." });
       return;
     }
 
@@ -107,13 +106,13 @@ export default function ReviewsPage() {
       });
 
       if (response.ok) {
-        toast({ title: "후기 등록 완료", description: "모든 방문자가 이 후기를 볼 수 있습니다." });
+        toast.success("후기 등록 완료", { description: "모든 방문자가 이 후기를 볼 수 있습니다." });
         setFormData({ author: '', rating: 5, content: '', service: '리니지 클래식 대리' });
         setShowForm(false);
         fetchReviews();
       }
     } catch (error) {
-      toast({ title: "등록 실패", description: "서버 통신 중 오류가 발생했습니다.", variant: "destructive" });
+      toast.error("등록 실패", { description: "서버 통신 중 오류가 발생했습니다." });
     }
   };
 
@@ -129,11 +128,11 @@ export default function ReviewsPage() {
       });
 
       if (response.ok) {
-        toast({ title: "삭제 완료", description: "후기가 서버에서 삭제되었습니다." });
+        toast.success("삭제 완료", { description: "후기가 서버에서 삭제되었습니다." });
         fetchReviews();
       }
     } catch (error) {
-      toast({ title: "삭제 실패", description: "서버 통신 중 오류가 발생했습니다.", variant: "destructive" });
+      toast.error("삭제 실패", { description: "서버 통신 중 오류가 발생했습니다." });
     }
   };
 
