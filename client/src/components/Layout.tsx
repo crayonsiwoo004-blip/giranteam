@@ -11,6 +11,11 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   useEffect(() => {
+    // 검색 엔진 봇인지 확인 (SEO 영향을 최소화하기 위함)
+    const isBot = /bot|googlebot|crawler|spider|robot|crawling/i.test(navigator.userAgent);
+    
+    if (isBot) return;
+
     // 마우스 우클릭 방지
     const handleContextMenu = (e: MouseEvent) => {
       e.preventDefault();
