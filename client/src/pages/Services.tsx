@@ -31,7 +31,7 @@ const servicePackages: ServicePackage[] = [
     price: 150000,
     pricePerHour: 13636,
     popular: true,
-    description: '가장 인기 있는 실속 패키지 (1시간 서비스 추가)',
+    description: '가장 인기 있는 실속 패키지 (1시간 서비스 추가 / 시간당 15,000원)',
     features: ['실시간 진행 상황 보고', '이중 보안 인증', '카카오톡 상담', '작업 중간 보고서', '우선 기사 배정', '✨ 1시간 서비스 추가']
   },
   {
@@ -41,7 +41,7 @@ const servicePackages: ServicePackage[] = [
     price: 700000,
     pricePerHour: 12500,
     popular: false,
-    description: '중장기 이용에 최적화된 패키지 (6시간 서비스 추가)',
+    description: '중장기 이용에 최적화된 패키지 (6시간 서비스 추가 / 시간당 14,000원)',
     features: ['실시간 진행 상황 보고', '이중 보안 인증', '24시간 모니터링', '상세 작업 보고서', '우선 기사 배정', '스펙업 가이드 제공', '✨ 6시간 서비스 추가']
   },
   {
@@ -51,7 +51,7 @@ const servicePackages: ServicePackage[] = [
     price: 1750000,
     pricePerHour: 12962,
     popular: false,
-    description: '최고 대우의 VIP 정기권 (15시간 서비스 추가)',
+    description: '최고 대우의 VIP 정기권 (15시간 서비스 추가 / 시간당 약 12,962원)',
     features: ['실시간 진행 상황 보고', '이중 보안 인증', '24시간 모니터링', '상세 작업 보고서', '최고 등급 기사 배정 (전담)', '긴급 상황 대응', '사후 관리 지원', '1:1 스펙업 컨설팅', '✨ 15시간 서비스 추가']
   }
 ];
