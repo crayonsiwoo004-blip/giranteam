@@ -26,8 +26,8 @@ export default function Home() {
           <div className="animate-fade-in-up">
             <h2 className="text-primary font-serif text-xl md:text-2xl mb-4 tracking-widest uppercase">Premium Lineage Proxy Service</h2>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-white mb-6 tracking-tight leading-tight">
-              신뢰로 맡기는 <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-orange-500">리니지 클래식 대리</span>
+              리니지 학교 <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-orange-500">기란팀 클래식 대리</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10 font-light">
               오랜 노하우와 검증된 시스템으로 안전하고 신뢰할 수 있는<br className="hidden md:block" /> 

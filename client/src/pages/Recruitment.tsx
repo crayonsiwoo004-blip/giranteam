@@ -84,16 +84,16 @@ export default function RecruitmentPage() {
     <Layout>
       {/* SEO Optimization */}
       <head>
-        <title>기사 모집 | 리니지 대리, 리니지 클래식 대리 전문 파트너 채용</title>
-        <meta name="description" content="리니지 대리 및 리니지 클래식 대리 서비스를 함께 이끌어갈 전문 기사님을 모집합니다. 업계 최고 대우와 안정적인 업무 환경을 약속드립니다." />
-        <meta name="keywords" content="리니지 대리 기사 모집, 리니지 클래식 대리 구인, 리니지 육성 기사 채용, 게임 대리 알바" />
+        <title>기사 모집 | 리니지 학교(기란팀) 리니지 클래식 전문 파트너 채용</title>
+        <meta name="description" content="리니지 학교(기란팀)와 함께 성장할 리니지 클래식 전문 부주 기사님을 모집합니다. 업계 최고 수준의 단가와 안정적인 작업 환경을 보장합니다." />
+        <meta name="keywords" content="리니지 기사 모집, 리니지 클래식 부주 구인, 기란팀 기사 채용, 리니지 학교 기사모집, 게임 부주 알바" />
       </head>
 
       <div className="pt-20 pb-12">
         {/* Header */}
         <section className="py-16 bg-gradient-to-b from-primary/10 to-transparent border-b border-white/5">
           <div className="container mx-auto px-4 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">리니지 대리 기사 모집</h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">리니지 클래식 기사 모집</h1>
             <p className="text-muted-foreground text-lg">
               리니지대리와 함께 성장할 리니지 클래식 대리 전문 파트너를 찾습니다
             </p>
@@ -103,7 +103,7 @@ export default function RecruitmentPage() {
         {/* Why Join Us */}
         <section className="py-16 bg-black/30 border-b border-white/5">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-white mb-12 text-center">왜 리니지대리인가?</h2>
+              <h2 className="text-3xl font-bold text-white mb-12 text-center">왜 기란팀인가?</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
               {qualifications.map((item, index) => (
                 <div key={index} className="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-primary/30 transition-all">

@@ -15,7 +15,7 @@ export default function YouTubeSection() {
             <iframe
               width="100%"
               height="100%"
-              src="https://www.youtube.com/embed/sYMtR-Yf7t8"
+              src="https://www.youtube.com/embed/EjT9yEv3z0Y"
               title="리니지대리 서비스 소개"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

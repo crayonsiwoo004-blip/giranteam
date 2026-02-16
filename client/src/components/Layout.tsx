@@ -48,7 +48,7 @@ export default function Layout({ children }: LayoutProps) {
         <div className="container mx-auto px-4 h-20 flex items-center justify-between">
           <Link href="/" className="text-2xl font-serif font-bold text-white tracking-tighter hover:text-primary transition-colors flex items-center gap-2">
             <span className="text-primary">⚔</span>
-            리니지<span className="text-primary">대리</span>
+            리니지<span className="text-primary">학교</span>
           </Link>
           
           <nav className="hidden md:flex items-center gap-8">
@@ -78,7 +78,7 @@ export default function Layout({ children }: LayoutProps) {
             <div className="col-span-1 md:col-span-2">
             <Link href="/" className="text-2xl font-serif font-bold text-white mb-4 inline-block hover:text-primary transition-colors flex items-center gap-2">
               <span className="text-primary">⚔</span>
-              리니지<span className="text-primary">대리</span>
+              리니지<span className="text-primary">학교</span>
             </Link>
               <p className="text-muted-foreground mb-6 max-w-md">
                 다년간의 운영 노하우를 바탕으로 안전과 신뢰를 최우선으로 하는 게임 대리 부주 전문 서비스입니다. 

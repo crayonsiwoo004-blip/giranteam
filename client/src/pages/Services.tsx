@@ -18,8 +18,8 @@ const servicePackages: ServicePackage[] = [
     id: 1,
     duration: '1시간',
     hours: 1,
-    price: 15000,
-    pricePerHour: 15000,
+    price: 18000,
+    pricePerHour: 18000,
     popular: false,
     description: '짧은 시간 사냥이 필요할 때',
     features: ['실시간 진행 상황 보고', '기본 보안 설정', '카카오톡 상담']
@@ -28,8 +28,8 @@ const servicePackages: ServicePackage[] = [
     id: 2,
     duration: '11시간',
     hours: 11,
-    price: 150000,
-    pricePerHour: 13636,
+    price: 180000,
+    pricePerHour: 16363,
     popular: true,
     description: '가장 인기 있는 패키지',
     features: ['실시간 진행 상황 보고', '이중 보안 인증', '카카오톡 상담', '작업 중간 보고서', '우선 기사 배정']
@@ -38,8 +38,8 @@ const servicePackages: ServicePackage[] = [
     id: 3,
     duration: '120시간',
     hours: 120,
-    price: 1500000,
-    pricePerHour: 12500,
+    price: 1800000,
+    pricePerHour: 15000,
     popular: false,
     description: '대규모 장기 작업',
     features: ['실시간 진행 상황 보고', '이중 보안 인증', '24시간 모니터링', '상세 작업 보고서', '최고 등급 기사 배정', '긴급 상황 대응', '사후 관리 지원']
@@ -71,9 +71,9 @@ export default function ServicesPage() {
     <Layout>
       {/* SEO Optimization */}
       <head>
-        <title>서비스 안내 | 리니지 대리, 리니지 클래식 대리 전문 가격표</title>
-        <meta name="description" content="리니지 대리 및 리니지 클래식 대리 서비스의 투명한 가격표와 이용 절차를 안내합니다. 1시간부터 120시간까지 다양한 패키지를 확인하세요." />
-        <meta name="keywords" content="리니지 대리 가격, 리니지 클래식 대리 비용, 리니지 육성 가격, 리니지 대리 서비스 안내" />
+        <title>리니지 학교 | 리니지 클래식 대리 이용요금 안내 및 전문 가이드</title>
+        <meta name="description" content="리니지 학교(기란팀)의 리니지 클래식 대리 및 육성 서비스 이용요금을 안내합니다. 100% 수작업 보장, 24시간 라이브 방송, 사고 시 3배 보상 원칙으로 가장 안전한 대리 서비스를 제공합니다." />
+        <meta name="keywords" content="리니지 대리 가격, 리니지 클래식 대리 비용, 리니지 육성 가격, 리니지 대리 서비스 안내, 리니지 학교, 기란팀 가격표, 리니지 클래식 부주 비용" />
       </head>
 
       {/* Structured Data for Services */}
@@ -130,7 +130,7 @@ export default function ServicesPage() {
         <section className="py-16">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl font-bold text-white mb-12 text-center">리니지 대리 가격표</h2>
+              <h2 className="text-3xl font-bold text-white mb-12 text-center">리니지 클래식 이용요금</h2>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
                 {servicePackages.map(pkg => (

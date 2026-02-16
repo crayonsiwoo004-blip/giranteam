@@ -39,7 +39,7 @@ export default function KakaoConsultButton() {
           <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
             {/* Header */}
             <div className="bg-gradient-to-r from-yellow-400 to-yellow-500 px-6 py-4 flex items-center justify-between">
-              <h3 className="font-bold text-gray-800">리니지대리 상담</h3>
+              <h3 className="font-bold text-gray-800">리니지 학교 상담</h3>
               <button
                 onClick={() => setIsOpen(false)}
                 className="text-gray-700 hover:text-gray-900 transition-colors"
@@ -51,7 +51,7 @@ export default function KakaoConsultButton() {
             {/* Content */}
             <div className="p-6 space-y-4">
               <p className="text-sm text-gray-700 leading-relaxed">
-                안녕하세요! 리니지대리입니다.<br />
+                안녕하세요! 리니지 학교(기란팀)입니다.<br />
                 궁금하신 점이나 상담이 필요하신 경우<br />
                 카카오톡 오픈채팅으로 편하게 문의해주세요.
               </p>
