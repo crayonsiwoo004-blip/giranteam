@@ -28,8 +28,8 @@ const servicePackages: ServicePackage[] = [
     id: 2,
     duration: '10시간 결제 → 11시간 제공',
     hours: 11,
-    price: 160000,
-    pricePerHour: 14545,
+    price: 150000,
+    pricePerHour: 13636,
     popular: true,
     description: '가장 인기 있는 실속 패키지 (1시간 서비스 추가)',
     features: ['실시간 진행 상황 보고', '이중 보안 인증', '카카오톡 상담', '작업 중간 보고서', '우선 기사 배정', '✨ 1시간 서비스 추가']
@@ -48,8 +48,8 @@ const servicePackages: ServicePackage[] = [
     id: 4,
     duration: '120시간 결제 → 135시간 제공',
     hours: 135,
-    price: 1560000,
-    pricePerHour: 11555,
+    price: 1750000,
+    pricePerHour: 12962,
     popular: false,
     description: '최고 대우의 VIP 정기권 (15시간 서비스 추가)',
     features: ['실시간 진행 상황 보고', '이중 보안 인증', '24시간 모니터링', '상세 작업 보고서', '최고 등급 기사 배정 (전담)', '긴급 상황 대응', '사후 관리 지원', '1:1 스펙업 컨설팅', '✨ 15시간 서비스 추가']

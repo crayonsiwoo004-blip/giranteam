@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>기란팀 리니지 학교 - 이용요금표</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+        h2 {
+            font-size: 1.6em;
+            color: #007bff;
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+        }
+        .highlight {
+            color: #dc3545;
+            font-weight: 700;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 0;
+            font-size: 0.95em;
+        }
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 15px 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1.05em;
+        }
+        td {
+            background-color: #f0f8ff;
+            color: #495057;
+        }
+        td strong {
+            color: #212529;
+        }
+        .star {
+            color: #ffc107;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📊 상세 이용요금표</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>패키지</th>
+                    <th>결제 시간</th>
+                    <th>서비스 추가</th>
+                    <th>총 제공 시간</th>
+                    <th>결제 금액</th>
+                    <th>실제 시간당 단가</th>
+                    <th>할인율</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>입문 패키지</strong></td>
+                    <td>5시간</td>
+                    <td>-</td>
+                    <td>5시간</td>
+                    <td><strong>80,000원</strong></td>
+                    <td>16,000원</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td><strong>실속 패키지</strong> <span class="star">⭐</span></td>
+                    <td>10시간</td>
+                    <td>1시간</td>
+                    <td><strong>11시간</strong></td>
+                    <td><strong>150,000원</strong></td>
+                    <td>13,636원</td>
+                    <td><span class="highlight">약 15% 할인</span></td>
+                </tr>
+                <tr>
+                    <td><strong>집중 패키지</strong></td>
+                    <td>50시간</td>
+                    <td>6시간</td>
+                    <td><strong>56시간</strong></td>
+                    <td><strong>700,000원</strong></td>
+                    <td>12,500원</td>
+                    <td><span class="highlight">약 22% 할인</span></td>
+                </tr>
+                <tr>
+                    <td><strong>VIP 정기권</strong></td>
+                    <td>120시간</td>
+                    <td>15시간</td>
+                    <td><strong>135시간</strong></td>
+                    <td><strong>1,750,000원</strong></td>
+                    <td>12,962원</td>
+                    <td><span class="highlight">약 19% 할인</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
