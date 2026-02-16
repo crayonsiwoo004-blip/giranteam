@@ -16,43 +16,43 @@ interface ServicePackage {
 const servicePackages: ServicePackage[] = [
   {
     id: 1,
-    duration: '5시간',
-    hours: 5,
-    price: 85000,
-    pricePerHour: 17000,
+    duration: '5~10시간',
+    hours: 10,
+    price: 160000,
+    pricePerHour: 16000,
     popular: false,
-    description: '기란팀의 퀄리티를 경험하는 체험 패키지',
+    description: '기란팀의 퀄리티를 경험하는 단기 패키지 (5시간 이상 11시간 미만)',
     features: ['실시간 진행 상황 보고', '기본 보안 설정', '카카오톡 상담']
   },
   {
     id: 2,
-    duration: '11시간',
-    hours: 11,
-    price: 176000,
-    pricePerHour: 16000,
+    duration: '11~54시간',
+    hours: 33,
+    price: 495000,
+    pricePerHour: 15000,
     popular: true,
-    description: '가장 인기 있는 집중 육성 패키지',
+    description: '가장 인기 있는 중기 육성 패키지 (11시간 이상 55시간 미만)',
     features: ['실시간 진행 상황 보고', '이중 보안 인증', '카카오톡 상담', '작업 중간 보고서', '우선 기사 배정']
   },
   {
     id: 3,
-    duration: '50시간',
-    hours: 50,
-    price: 750000,
-    pricePerHour: 15000,
+    duration: '55~200시간',
+    hours: 100,
+    price: 1400000,
+    pricePerHour: 14000,
     popular: false,
-    description: '실속 있는 중기 육성 패키지',
+    description: '실속 있는 장기 육성 패키지 (55시간 이상 월결제 미만)',
     features: ['실시간 진행 상황 보고', '이중 보안 인증', '24시간 모니터링', '상세 작업 보고서', '우선 기사 배정', '스펙업 가이드 제공']
   },
   {
     id: 4,
-    duration: '120시간',
-    hours: 120,
-    price: 1680000,
-    pricePerHour: 14000,
+    duration: '월결제',
+    hours: 240,
+    price: 3120000,
+    pricePerHour: 13000,
     popular: false,
-    description: '최고 대우의 VIP 정기 패키지',
-    features: ['실시간 진행 상황 보고', '이중 보안 인증', '24시간 모니터링', '상세 작업 보고서', '최고 등급 기사 배정', '긴급 상황 대응', '사후 관리 지원', '1:1 스펙업 컨설팅']
+    description: '최고 대우의 VIP 월결제 패키지 (정기권)',
+    features: ['실시간 진행 상황 보고', '이중 보안 인증', '24시간 모니터링', '상세 작업 보고서', '최고 등급 기사 배정 (전담)', '긴급 상황 대응', '사후 관리 지원', '1:1 스펙업 컨설팅']
   }
 ];
 
