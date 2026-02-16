@@ -16,43 +16,43 @@ interface ServicePackage {
 const servicePackages: ServicePackage[] = [
   {
     id: 1,
-    duration: '단기 육성',
-    hours: 10,
-    price: 160000,
+    duration: '5시간 이상',
+    hours: 5,
+    price: 80000,
     pricePerHour: 16000,
     popular: false,
-    description: '기란팀의 퀄리티를 경험하는 입문 패키지',
+    description: '기란팀의 퀄리티를 경험하는 입문 패키지 (최소 결제)',
     features: ['실시간 진행 상황 보고', '기본 보안 설정', '카카오톡 상담']
   },
   {
     id: 2,
-    duration: '실속 육성',
-    hours: 33,
-    price: 495000,
-    pricePerHour: 15000,
+    duration: '10시간 결제 → 11시간 제공',
+    hours: 11,
+    price: 160000,
+    pricePerHour: 14545,
     popular: true,
-    description: '가장 인기 있는 중기 육성 패키지',
-    features: ['실시간 진행 상황 보고', '이중 보안 인증', '카카오톡 상담', '작업 중간 보고서', '우선 기사 배정']
+    description: '가장 인기 있는 실속 패키지 (1시간 서비스 추가)',
+    features: ['실시간 진행 상황 보고', '이중 보안 인증', '카카오톡 상담', '작업 중간 보고서', '우선 기사 배정', '✨ 1시간 서비스 추가']
   },
   {
     id: 3,
-    duration: '장기 육성',
-    hours: 100,
-    price: 1400000,
-    pricePerHour: 14000,
+    duration: '50시간 결제 → 56시간 제공',
+    hours: 56,
+    price: 700000,
+    pricePerHour: 12500,
     popular: false,
-    description: '중장기 이용에 최적화된 패키지',
-    features: ['실시간 진행 상황 보고', '이중 보안 인증', '24시간 모니터링', '상세 작업 보고서', '우선 기사 배정', '스펙업 가이드 제공']
+    description: '중장기 이용에 최적화된 패키지 (6시간 서비스 추가)',
+    features: ['실시간 진행 상황 보고', '이중 보안 인증', '24시간 모니터링', '상세 작업 보고서', '우선 기사 배정', '스펙업 가이드 제공', '✨ 6시간 서비스 추가']
   },
   {
     id: 4,
-    duration: 'VIP 정기권',
-    hours: 240,
-    price: 3120000,
-    pricePerHour: 13000,
+    duration: '120시간 결제 → 135시간 제공',
+    hours: 135,
+    price: 1560000,
+    pricePerHour: 11555,
     popular: false,
-    description: '최고 대우의 전담 관리 정기권',
-    features: ['실시간 진행 상황 보고', '이중 보안 인증', '24시간 모니터링', '상세 작업 보고서', '최고 등급 기사 배정 (전담)', '긴급 상황 대응', '사후 관리 지원', '1:1 스펙업 컨설팅']
+    description: '최고 대우의 VIP 정기권 (15시간 서비스 추가)',
+    features: ['실시간 진행 상황 보고', '이중 보안 인증', '24시간 모니터링', '상세 작업 보고서', '최고 등급 기사 배정 (전담)', '긴급 상황 대응', '사후 관리 지원', '1:1 스펙업 컨설팅', '✨ 15시간 서비스 추가']
   }
 ];
 
