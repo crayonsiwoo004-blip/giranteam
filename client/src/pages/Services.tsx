@@ -16,42 +16,42 @@ interface ServicePackage {
 const servicePackages: ServicePackage[] = [
   {
     id: 1,
-    duration: '5~10시간',
+    duration: '단기 육성',
     hours: 10,
     price: 160000,
     pricePerHour: 16000,
     popular: false,
-    description: '기란팀의 퀄리티를 경험하는 단기 패키지 (5시간 이상 11시간 미만)',
+    description: '기란팀의 퀄리티를 경험하는 입문 패키지',
     features: ['실시간 진행 상황 보고', '기본 보안 설정', '카카오톡 상담']
   },
   {
     id: 2,
-    duration: '11~54시간',
+    duration: '실속 육성',
     hours: 33,
     price: 495000,
     pricePerHour: 15000,
     popular: true,
-    description: '가장 인기 있는 중기 육성 패키지 (11시간 이상 55시간 미만)',
+    description: '가장 인기 있는 중기 육성 패키지',
     features: ['실시간 진행 상황 보고', '이중 보안 인증', '카카오톡 상담', '작업 중간 보고서', '우선 기사 배정']
   },
   {
     id: 3,
-    duration: '55~200시간',
+    duration: '장기 육성',
     hours: 100,
     price: 1400000,
     pricePerHour: 14000,
     popular: false,
-    description: '실속 있는 장기 육성 패키지 (55시간 이상 월결제 미만)',
+    description: '중장기 이용에 최적화된 패키지',
     features: ['실시간 진행 상황 보고', '이중 보안 인증', '24시간 모니터링', '상세 작업 보고서', '우선 기사 배정', '스펙업 가이드 제공']
   },
   {
     id: 4,
-    duration: '월결제',
+    duration: 'VIP 정기권',
     hours: 240,
     price: 3120000,
     pricePerHour: 13000,
     popular: false,
-    description: '최고 대우의 VIP 월결제 패키지 (정기권)',
+    description: '최고 대우의 전담 관리 정기권',
     features: ['실시간 진행 상황 보고', '이중 보안 인증', '24시간 모니터링', '상세 작업 보고서', '최고 등급 기사 배정 (전담)', '긴급 상황 대응', '사후 관리 지원', '1:1 스펙업 컨설팅']
   }
 ];
