@@ -16,33 +16,43 @@ interface ServicePackage {
 const servicePackages: ServicePackage[] = [
   {
     id: 1,
-    duration: '1시간',
-    hours: 1,
-    price: 18000,
-    pricePerHour: 18000,
+    duration: '5시간',
+    hours: 5,
+    price: 85000,
+    pricePerHour: 17000,
     popular: false,
-    description: '짧은 시간 사냥이 필요할 때',
+    description: '기란팀의 퀄리티를 경험하는 체험 패키지',
     features: ['실시간 진행 상황 보고', '기본 보안 설정', '카카오톡 상담']
   },
   {
     id: 2,
     duration: '11시간',
     hours: 11,
-    price: 180000,
-    pricePerHour: 16363,
+    price: 176000,
+    pricePerHour: 16000,
     popular: true,
-    description: '가장 인기 있는 패키지',
+    description: '가장 인기 있는 집중 육성 패키지',
     features: ['실시간 진행 상황 보고', '이중 보안 인증', '카카오톡 상담', '작업 중간 보고서', '우선 기사 배정']
   },
   {
     id: 3,
-    duration: '120시간',
-    hours: 120,
-    price: 1800000,
+    duration: '50시간',
+    hours: 50,
+    price: 750000,
     pricePerHour: 15000,
     popular: false,
-    description: '대규모 장기 작업',
-    features: ['실시간 진행 상황 보고', '이중 보안 인증', '24시간 모니터링', '상세 작업 보고서', '최고 등급 기사 배정', '긴급 상황 대응', '사후 관리 지원']
+    description: '실속 있는 중기 육성 패키지',
+    features: ['실시간 진행 상황 보고', '이중 보안 인증', '24시간 모니터링', '상세 작업 보고서', '우선 기사 배정', '스펙업 가이드 제공']
+  },
+  {
+    id: 4,
+    duration: '120시간',
+    hours: 120,
+    price: 1680000,
+    pricePerHour: 14000,
+    popular: false,
+    description: '최고 대우의 VIP 정기 패키지',
+    features: ['실시간 진행 상황 보고', '이중 보안 인증', '24시간 모니터링', '상세 작업 보고서', '최고 등급 기사 배정', '긴급 상황 대응', '사후 관리 지원', '1:1 스펙업 컨설팅']
   }
 ];
 
@@ -132,7 +142,7 @@ export default function ServicesPage() {
             <div className="max-w-6xl mx-auto">
               <h2 className="text-3xl font-bold text-white mb-12 text-center">리니지 클래식 이용요금</h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
                 {servicePackages.map(pkg => (
                   <div
                     key={pkg.id}
