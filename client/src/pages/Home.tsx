@@ -36,7 +36,7 @@ export default function Home() {
             
             <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
               <button
-                onClick={() => window.open('https://open.kakao.com/o/sxT1c2ci', '_blank')}
+                onClick={() => window.open('https://open.kakao.com/o/sIZhRNhi', '_blank')}
                 className="bg-primary hover:bg-primary/90 text-black font-bold px-8 py-6 text-lg rounded-full shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all hover:scale-105 cursor-pointer"
               >
                 상담 문의하기

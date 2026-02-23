@@ -70,7 +70,7 @@ export default function RecruitmentPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const message = `안녕하세요! 리니지대리 기사 모집에 지원합니다.\n\n이름: ${formData.name}\n이메일: ${formData.email}\n전화: ${formData.phone}\n경력: ${formData.experience}\n\n${formData.message}`;
-    window.open(`https://open.kakao.com/o/sxT1c2ci`, '_blank');
+    window.open(`https://open.kakao.com/o/sIZhRNhi`, '_blank');
     setFormData({
       name: '',
       email: '',
@@ -269,7 +269,7 @@ export default function RecruitmentPage() {
                 궁금한 사항은 언제든 문의주세요.
               </p>
               <button
-                onClick={() => window.open('https://open.kakao.com/o/sxT1c2ci', '_blank')}
+                onClick={() => window.open('https://open.kakao.com/o/sIZhRNhi', '_blank')}
                 className="inline-block bg-primary hover:bg-primary/90 text-black font-bold px-8 py-3 rounded-full transition-all hover:shadow-lg shadow-primary/20 cursor-pointer"
               >
                 카카오톡 문의하기

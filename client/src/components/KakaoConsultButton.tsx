@@ -5,7 +5,7 @@ export default function KakaoConsultButton() {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleKakaoClick = () => {
-    window.open('https://open.kakao.com/o/sxT1c2ci', '_blank');
+    window.open('https://open.kakao.com/o/sIZhRNhi', '_blank');
   };
 
   return (
