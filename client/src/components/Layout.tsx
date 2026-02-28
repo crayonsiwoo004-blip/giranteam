@@ -12,17 +12,22 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   useEffect(() => {
     // 검색 엔진 봇인지 확인 (SEO 영향을 최소화하기 위함)
-    const isBot = /bot|googlebot|crawler|spider|robot|crawling/i.test(navigator.userAgent);
+    const isBot = /bot|googlebot|crawler|spider|robot|crawling|lighthouse|bingbot|yandex|duckduckbot/i.test(navigator.userAgent);
     
     if (isBot) return;
 
     // 마우스 우클릭 방지
     const handleContextMenu = (e: MouseEvent) => {
-      e.preventDefault();
+      // 봇이 아닐 때만 작동하도록 보장
+      if (!isBot) {
+        e.preventDefault();
+      }
     };
 
     // 드래그 및 복사 방지
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (isBot) return;
+      
       // Ctrl+C, Ctrl+V, Ctrl+U (소스보기), Ctrl+S, Ctrl+P, F12 (개발자도구) 방지
       if (
         (e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'u' || e.key === 's' || e.key === 'p' || e.key === 'a')) ||
