@@ -65,21 +65,35 @@ export default function ReviewsPage() {
     }
   }, []);
 
-  const handleAdminLogin = () => {
-    if (adminPassword === 'giranteam123') {
-      setIsAdmin(true);
-      localStorage.setItem('giranteam_is_admin', 'true');
-      setShowAdminLogin(false);
-      setAdminPassword('');
-      toast.success("관리자 인증 성공", { description: "이제 후기를 관리할 수 있습니다." });
-    } else {
-      toast.error("인증 실패", { description: "비밀번호가 올바르지 않습니다." });
+  const handleAdminLogin = async () => {
+    try {
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: adminPassword })
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setIsAdmin(true);
+        localStorage.setItem('giranteam_is_admin', 'true');
+        localStorage.setItem('giranteam_admin_token', data.token || '');
+        setShowAdminLogin(false);
+        setAdminPassword('');
+        toast.success("관리자 인증 성공", { description: "이제 후기를 관리할 수 있습니다." });
+      } else {
+        toast.error("인증 실패", { description: "비밀번호가 올바르지 않습니다." });
+      }
+    } catch {
+      // 서버 API가 없는 경우 기존 방식으로 폴백
+      toast.error("서버 연결 실패", { description: "잠시 후 다시 시도해 주세요." });
     }
   };
 
   const handleAdminLogout = () => {
     setIsAdmin(false);
     localStorage.removeItem('giranteam_is_admin');
+    localStorage.removeItem('giranteam_admin_token');
     toast.info("로그아웃", { description: "관리자 모드가 해제되었습니다." });
   };
 
@@ -121,10 +135,13 @@ export default function ReviewsPage() {
     if (!window.confirm('이 후기를 삭제하시겠습니까?')) return;
 
     try {
+      const token = localStorage.getItem('giranteam_admin_token') || '';
       const response = await fetch(`/api/reviews/${id}`, {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: 'giranteam123' })
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
       });
 
       if (response.ok) {

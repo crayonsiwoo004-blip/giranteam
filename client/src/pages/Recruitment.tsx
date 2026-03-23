@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { Users, Briefcase, Award, Clock, FileText, CheckCircle2, Send } from 'lucide-react';
 
@@ -58,6 +58,10 @@ const qualifications = [
 ];
 
 export default function RecruitmentPage() {
+  useEffect(() => {
+    document.title = '기사 모집 | 리니지 학교(기란팀) 리니지 클래식 전문 파트너 채용';
+  }, []);
+
   const [expandedId, setExpandedId] = useState<number | null>(1);
   const [formData, setFormData] = useState({
     name: '',
@@ -67,9 +71,18 @@ export default function RecruitmentPage() {
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const message = `안녕하세요! 리니지대리 기사 모집에 지원합니다.\n\n이름: ${formData.name}\n이메일: ${formData.email}\n전화: ${formData.phone}\n경력: ${formData.experience}\n\n${formData.message}`;
+    
+    // 클립보드에 메시지 복사
+    try {
+      await navigator.clipboard.writeText(message);
+      alert('지원 내용이 클립보드에 복사되었습니다.\n카카오톡 오픈채팅에서 붙여넣기(Ctrl+V)하여 전송해 주세요.');
+    } catch {
+      alert('카카오톡 오픈채팅이 열립니다.\n아래 내용을 직접 입력해 주세요:\n\n' + message);
+    }
+    
     window.open(`https://open.kakao.com/o/sIZhRNhi`, '_blank');
     setFormData({
       name: '',
@@ -82,12 +95,6 @@ export default function RecruitmentPage() {
 
   return (
     <Layout>
-      {/* SEO Optimization */}
-      <head>
-        <title>기사 모집 | 리니지 학교(기란팀) 리니지 클래식 전문 파트너 채용</title>
-        <meta name="description" content="리니지 학교(기란팀)와 함께 성장할 리니지 클래식 전문 부주 기사님을 모집합니다. 업계 최고 수준의 단가와 안정적인 작업 환경을 보장합니다." />
-        <meta name="keywords" content="리니지 기사 모집, 리니지 클래식 부주 구인, 기란팀 기사 채용, 리니지 학교 기사모집, 게임 부주 알바" />
-      </head>
 
       <div className="pt-20 pb-12">
         {/* Header */}

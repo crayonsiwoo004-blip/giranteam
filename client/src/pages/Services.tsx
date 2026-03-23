@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { Check, Zap, Clock, Award } from 'lucide-react';
 
@@ -77,34 +77,34 @@ const serviceFeatures = [
 export default function ServicesPage() {
   const [selectedPackage, setSelectedPackage] = useState<number>(2);
 
+  useEffect(() => {
+    document.title = '리니지 학교 | 리니지 클래식 대리 이용요금 안내 및 전문 가이드';
+    
+    // Structured Data
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify({
+      "@context": "https://schema.org/",
+      "@type": "Service",
+      "serviceType": "리니지 게임 대리 서비스",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "리니지대리"
+      },
+      "offers": servicePackages.map(pkg => ({
+        "@type": "Offer",
+        "name": `리니지 대리 ${pkg.duration} 패키지`,
+        "price": pkg.price,
+        "priceCurrency": "KRW",
+        "description": pkg.description
+      }))
+    });
+    document.head.appendChild(script);
+    return () => { document.head.removeChild(script); };
+  }, []);
+
   return (
     <Layout>
-      {/* SEO Optimization */}
-      <head>
-        <title>리니지 학교 | 리니지 클래식 대리 이용요금 안내 및 전문 가이드</title>
-        <meta name="description" content="리니지 학교(기란팀)의 리니지 클래식 대리 및 육성 서비스 이용요금을 안내합니다. 100% 수작업 보장, 24시간 라이브 방송, 사고 시 3배 보상 원칙으로 가장 안전한 대리 서비스를 제공합니다." />
-        <meta name="keywords" content="리니지 대리 가격, 리니지 클래식 대리 비용, 리니지 육성 가격, 리니지 대리 서비스 안내, 리니지 학교, 기란팀 가격표, 리니지 클래식 부주 비용" />
-      </head>
-
-      {/* Structured Data for Services */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org/",
-          "@type": "Service",
-          "serviceType": "리니지 게임 대리 서비스",
-          "provider": {
-            "@type": "LocalBusiness",
-            "name": "리니지대리"
-          },
-          "offers": servicePackages.map(pkg => ({
-            "@type": "Offer",
-            "name": `리니지 대리 ${pkg.duration} 패키지`,
-            "price": pkg.price,
-            "priceCurrency": "KRW",
-            "description": pkg.description
-          }))
-        })}
-      </script>
 
       <div className="pt-20 pb-12">
         {/* Header */}

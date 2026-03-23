@@ -18,31 +18,15 @@ export default function Layout({ children }: LayoutProps) {
 
     // 마우스 우클릭 방지
     const handleContextMenu = (e: MouseEvent) => {
-      // 봇이 아닐 때만 작동하도록 보장
       if (!isBot) {
         e.preventDefault();
       }
     };
 
-    // 드래그 및 복사 방지
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (isBot) return;
-      
-      // Ctrl+C, Ctrl+V, Ctrl+U (소스보기), Ctrl+S, Ctrl+P, F12 (개발자도구) 방지
-      if (
-        (e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'u' || e.key === 's' || e.key === 'p' || e.key === 'a')) ||
-        e.key === 'F12'
-      ) {
-        e.preventDefault();
-      }
-    };
-
     document.addEventListener('contextmenu', handleContextMenu);
-    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu);
-      document.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
 
@@ -114,7 +98,7 @@ export default function Layout({ children }: LayoutProps) {
               <ul className="space-y-2">
                 <li><Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">고객 후기</Link></li>
                 <li><Link href="/items" className="text-muted-foreground hover:text-primary transition-colors">서비스 안내</Link></li>
-                <li><Link href="/privacy" className="text-muted-foreground hover:text-primary transition-colors">개인정보처리방침</Link></li>
+                <li><Link href="/qna" className="text-muted-foreground hover:text-primary transition-colors">Q&A / FAQ</Link></li>
               </ul>
             </div>
           </div>

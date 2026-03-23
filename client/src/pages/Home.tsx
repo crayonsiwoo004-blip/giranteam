@@ -15,7 +15,7 @@ export default function Home() {
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black z-10"></div>
           <img 
-            src="/images/hero-bg.jpg" 
+            src="https://d2xsxph8kpxj0f.cloudfront.net/310519663318487784/QVbesoy6GVypU94qvYmB8S/hero-bg_a0e6e31c.jpg" 
             alt="리니지 대리 서비스 배경" 
             className="w-full h-full object-cover opacity-60"
           />
@@ -69,13 +69,14 @@ export default function Home() {
           
           <div className="relative max-w-5xl mx-auto aspect-video rounded-xl overflow-hidden shadow-2xl border border-white/10 group">
             <img 
-              src="/images/sword-loading.jpg" 
+              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663318487784/QVbesoy6GVypU94qvYmB8S/sword-loading_081859dd.jpg" 
               alt="리니지 대리 작업 화면 예시" 
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/20 transition-colors">
-              <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 cursor-pointer hover:scale-110 transition-transform">
-                <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[20px] border-l-white border-b-[10px] border-b-transparent ml-1"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center pb-8">
+              <div className="text-center">
+                <p className="text-white/90 text-lg font-medium">안전하고 신뢰할 수 있는 작업 환경</p>
+                <p className="text-white/60 text-sm mt-1">24시간 실시간 모니터링 진행</p>
               </div>
             </div>
           </div>
@@ -114,7 +115,7 @@ export default function Home() {
             <div className="order-1 lg:order-2 relative">
               <div className="absolute -inset-4 bg-blue-500/20 rounded-full blur-3xl opacity-30"></div>
               <img 
-                src="/images/trusted-illustration.jpg" 
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663318487784/QVbesoy6GVypU94qvYmB8S/trusted-illustration_7d5a3d27.jpg" 
                 alt="리니지 대리 신뢰성 강조 이미지" 
                 className="relative z-10 w-full rounded-2xl shadow-2xl border border-white/10 hover:translate-y-[-10px] transition-transform duration-500"
               />
@@ -130,7 +131,7 @@ export default function Home() {
             <div className="relative">
               <div className="absolute -inset-4 bg-cyan-500/20 rounded-full blur-3xl opacity-30"></div>
               <img 
-                src="/images/security-illustration.jpg" 
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663318487784/QVbesoy6GVypU94qvYmB8S/security-illustration_b2be097c.jpg" 
                 alt="리니지 클래식 대리 보안 시스템" 
                 className="relative z-10 w-full rounded-2xl shadow-2xl border border-white/10 hover:translate-y-[-10px] transition-transform duration-500"
               />
@@ -146,9 +147,11 @@ export default function Home() {
                 보안 수칙을 철저히 준수합니다. 리니지 클래식 대리 작업 시 불필요한 접속 시도나 위험 요소를 사전에
                 차단하여 안전한 플레이 환경을 보장합니다.
               </p>
-              <Button variant="outline" className="border-cyan-500/50 text-cyan-400 hover:bg-cyan-950/30">
-                보안 정책 자세히 보기
-              </Button>
+              <Link href="/qna">
+                <Button variant="outline" className="border-cyan-500/50 text-cyan-400 hover:bg-cyan-950/30">
+                  보안 관련 FAQ 보기
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -168,14 +171,17 @@ export default function Home() {
                 리니지 대리 작업 진행 상황은 공지 및 작업현황 메뉴에서 확인하실 수 있으며, 
                 리니지 클래식 대리 관련 문의는 카카오톡 오픈채팅으로 편리하게 소통하실 수 있습니다.
               </p>
-              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">
-                실시간 현황 확인하기
+              <Button 
+                className="bg-indigo-600 hover:bg-indigo-700 text-white"
+                onClick={() => window.open('https://open.kakao.com/o/sIZhRNhi', '_blank')}
+              >
+                카카오톡으로 현황 문의하기
               </Button>
             </div>
             <div className="relative">
               <div className="absolute -inset-4 bg-indigo-500/20 rounded-full blur-3xl opacity-30"></div>
               <img 
-                src="/images/live-status.jpg" 
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663318487784/QVbesoy6GVypU94qvYmB8S/live-status_f1d238bb.jpg" 
                 alt="리니지 대리 실시간 소통 화면" 
                 className="relative z-10 w-full rounded-2xl shadow-2xl border border-white/10 hover:translate-y-[-10px] transition-transform duration-500"
               />
@@ -189,9 +195,6 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-end mb-12">
             <h2 className="text-3xl font-bold text-white">리니지 대리 가이드</h2>
-            <a href="#" className="text-sm text-muted-foreground hover:text-primary flex items-center transition-colors">
-              전체 보기 <ChevronRight className="w-4 h-4 ml-1" />
-            </a>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

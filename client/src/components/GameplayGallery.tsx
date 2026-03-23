@@ -9,12 +9,12 @@ interface GalleryImage {
 
 const gameplayImages: GalleryImage[] = [
   {
-    src: '/images/gameplay-screenshot.jpg',
+    src: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663318487784/QVbesoy6GVypU94qvYmB8S/gameplay-screenshot_572d2aac.jpg',
     title: '실시간 전투 플레이',
     description: '강력한 몬스터와의 전투에서 다양한 스킬을 활용한 박진감 넘치는 게임플레이'
   },
   {
-    src: '/images/gameplay-dungeon.jpg',
+    src: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663318487784/QVbesoy6GVypU94qvYmB8S/gameplay-dungeon_470eaded.jpg',
     title: '던전 탐험',
     description: '팀을 이루어 위험한 던전을 탐험하고 귀중한 아이템을 획득하는 경험'
   }
