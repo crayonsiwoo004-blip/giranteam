@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
+import { updatePageMeta, PAGE_SEO } from '@/lib/seo';
 import { Users, Briefcase, Award, Clock, FileText, CheckCircle2, Send } from 'lucide-react';
 
 interface JobPosition {
@@ -59,7 +60,7 @@ const qualifications = [
 
 export default function RecruitmentPage() {
   useEffect(() => {
-    document.title = '기사 모집 | 리니지 학교(기란팀) 리니지 클래식 전문 파트너 채용';
+    updatePageMeta(PAGE_SEO.recruitment);
   }, []);
 
   const [expandedId, setExpandedId] = useState<number | null>(1);

@@ -1,12 +1,18 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { Link } from 'wouter';
 import Layout from '@/components/Layout';
 import YouTubeSection from '@/components/YouTubeSection';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Shield, Lock, Clock, Award, ChevronRight, MessageCircle, Monitor, Users, CheckCircle2 } from 'lucide-react';
+import { updatePageMeta, PAGE_SEO } from '@/lib/seo';
 
 export default function Home() {
+  useEffect(() => {
+    updatePageMeta(PAGE_SEO.home);
+  }, []);
+
   return (
     <Layout>
       {/* Hero Section */}

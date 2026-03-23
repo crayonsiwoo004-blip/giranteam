@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
+import { updatePageMeta, PAGE_SEO } from '@/lib/seo';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Star, MessageSquare, Plus, Trash2, ShieldCheck, LogOut, Lock, X } from 'lucide-react';
@@ -58,6 +59,7 @@ export default function ReviewsPage() {
   };
 
   useEffect(() => {
+    updatePageMeta(PAGE_SEO.reviews);
     fetchReviews();
     const savedAdmin = localStorage.getItem('giranteam_is_admin');
     if (savedAdmin === 'true') {

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
+import { updatePageMeta, PAGE_SEO } from '@/lib/seo';
 import { Check, Zap, Clock, Award } from 'lucide-react';
 
 interface ServicePackage {
@@ -78,7 +79,7 @@ export default function ServicesPage() {
   const [selectedPackage, setSelectedPackage] = useState<number>(2);
 
   useEffect(() => {
-    document.title = '리니지 학교 | 리니지 클래식 대리 이용요금 안내 및 전문 가이드';
+    updatePageMeta(PAGE_SEO.services);
     
     // Structured Data
     const script = document.createElement('script');
