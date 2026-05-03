@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Layout from '@/components/Layout';
 import { updatePageMeta, PAGE_SEO } from '@/lib/seo';
-import { Check, Zap, Clock, Award, Star, Shield, ChevronRight, MessageCircle } from 'lucide-react';
+import { Check, Zap, Clock, Award, Star, Shield, MessageCircle, CalendarDays } from 'lucide-react';
 
 function useInView(threshold = 0.12) {
   const ref = useRef<HTMLDivElement>(null);
@@ -22,11 +22,11 @@ function useInView(threshold = 0.12) {
 interface ServicePackage {
   id: number;
   tier: string;
-  duration: string;
-  hours: number;
+  label: string;
+  hours: number | null;
   price: number;
   pricePerHour: number;
-  popular: boolean;
+  billingType: 'single' | 'monthly';
   description: string;
   features: string[];
   badge?: string;
@@ -35,65 +35,34 @@ interface ServicePackage {
 const servicePackages: ServicePackage[] = [
   {
     id: 1,
-    tier: 'STARTER',
-    duration: '5시간 이상',
-    hours: 5,
-    price: 80000,
-    pricePerHour: 16000,
-    popular: false,
-    description: '기란팀의 퀄리티를 직접 경험하는 입문 패키지',
-    features: [
-      '실시간 진행 상황 보고',
-      '기본 보안 설정',
-      '카카오톡 상담',
-    ],
-  },
-  {
-    id: 2,
     tier: 'STANDARD',
-    duration: '10시간',
-    hours: 10,
-    price: 150000,
-    pricePerHour: 15000,
-    popular: true,
-    description: '가장 인기 있는 실속 패키지',
-    badge: '인기',
-    features: [
-      '실시간 진행 상황 보고',
-      '이중 보안 인증',
-      '카카오톡 상담',
-      '작업 중간 보고서',
-      '우선 기사 배정',
-    ],
-  },
-  {
-    id: 3,
-    tier: 'PREMIUM',
-    duration: '50시간',
-    hours: 50,
-    price: 700000,
-    pricePerHour: 14000,
-    popular: false,
-    description: '중장기 이용에 최적화된 프리미엄 패키지',
+    label: '120시간 이용권',
+    hours: 120,
+    price: 1560000,
+    pricePerHour: 13000,
+    billingType: 'single',
+    description: '120시간 분량의 단건 이용권. 원하는 시기에 자유롭게 사용하세요.',
     features: [
       '실시간 진행 상황 보고',
       '이중 보안 인증',
       '24시간 모니터링',
       '상세 작업 보고서',
-      '우선 기사 배정',
-      '스펙업 가이드 제공',
+      '최고 등급 기사 전담 배정',
+      '긴급 상황 대응',
+      '사후 관리 지원',
+      '1:1 스펙업 컨설팅',
     ],
   },
   {
-    id: 4,
-    tier: 'VIP',
-    duration: '120시간',
-    hours: 120,
-    price: 1560000,
-    pricePerHour: 13000,
-    popular: false,
-    description: '최고 대우의 VIP 전담 정기권',
-    badge: 'VIP',
+    id: 2,
+    tier: 'MONTHLY',
+    label: '월 정기 구독',
+    hours: null,
+    price: 12000,
+    pricePerHour: 12000,
+    billingType: 'monthly',
+    description: '매월 정기 결제로 더 저렴하게. 1시간당 1,000원 절약되는 구독 플랜.',
+    badge: '추천',
     features: [
       '실시간 진행 상황 보고',
       '이중 보안 인증',
@@ -134,7 +103,8 @@ export default function ServicesPage() {
       "provider": { "@type": "LocalBusiness", "name": "리니지대리" },
       "offers": servicePackages.map(pkg => ({
         "@type": "Offer",
-        "name": `리니지 대리 ${pkg.duration} 패키지`,
+              "name": `리니지 대리 ${pkg.label}`,
+              "billingType": pkg.billingType,
         "price": pkg.price,
         "priceCurrency": "KRW",
         "description": pkg.description,
@@ -163,7 +133,7 @@ export default function ServicesPage() {
               </h1>
               <div className="luxury-divider my-6" />
               <p className="text-white/40 text-base font-light max-w-lg mx-auto">
-                당신의 필요에 맞는 최적의 패키지를 선택하세요
+                단건 이용권과 월 정기 구독 중 원하는 방식을 선택하세요
               </p>
             </div>
           </div>
@@ -203,11 +173,31 @@ export default function ServicesPage() {
               <span className="section-label mb-6 inline-flex">Pricing</span>
               <h2 className="font-serif text-3xl md:text-4xl font-bold text-white mb-4">리니지 클래식 이용요금</h2>
               <div className="luxury-divider" />
+              <p className="text-white/30 text-sm mt-6 font-light">두 플랜 모두 동일한 서비스를 제공합니다</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
+            {/* 가격 비교 배너 */}
+            <div className={`max-w-2xl mx-auto mb-10 transition-all duration-700 ${pricing.inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              style={{ transitionDelay: '0.1s' }}>
+              <div className="luxury-card rounded-2xl p-5 flex items-center justify-center gap-8 md:gap-16">
+                <div className="text-center">
+                  <p className="text-white/25 text-[10px] tracking-widest uppercase mb-1">단건 이용권</p>
+                  <p className="text-white/70 font-bold text-lg">시간당 <span className="text-white/90">₩13,000</span></p>
+                </div>
+                <div className="h-10 w-px bg-white/8" />
+                <div className="text-center">
+                  <p className="text-amber-400/60 text-[10px] tracking-widest uppercase mb-1">월 정기 구독</p>
+                  <p className="text-amber-400 font-bold text-lg">시간당 <span className="text-gold-gradient">₩12,000</span></p>
+                  <p className="text-green-400/60 text-[10px] mt-0.5">시간당 ₩1,000 절약</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 카드 2개 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
               {servicePackages.map((pkg, i) => {
                 const isSelected = selectedPackage === pkg.id;
+                const isMonthly = pkg.billingType === 'monthly';
                 return (
                   <div
                     key={pkg.id}
@@ -216,45 +206,57 @@ export default function ServicesPage() {
                       pricing.inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                     } ${
                       isSelected
-                        ? 'border border-amber-500/50 shadow-[0_0_40px_rgba(212,175,55,0.12)]'
-                        : 'border border-white/6 hover:border-amber-500/25'
+                        ? 'border border-amber-500/50 shadow-[0_0_50px_rgba(212,175,55,0.12)]'
+                        : 'border border-white/6 hover:border-amber-500/20'
                     }`}
                     style={{
                       background: isSelected
                         ? 'linear-gradient(160deg, rgba(26,22,10,0.95) 0%, rgba(18,16,8,0.98) 100%)'
                         : 'linear-gradient(160deg, rgba(18,18,28,0.9) 0%, rgba(12,12,20,0.95) 100%)',
-                      transitionDelay: `${i * 0.08}s`,
+                      transitionDelay: `${i * 0.1}s`,
                     }}
                   >
-                    {/* Popular badge */}
                     {pkg.badge && (
                       <div className="absolute top-0 right-0 bg-amber-500 text-black text-[10px] font-black px-3 py-1 rounded-bl-xl tracking-widest uppercase">
                         {pkg.badge}
                       </div>
                     )}
-
-                    <div className="p-6">
-                      {/* Tier */}
-                      <div className="text-amber-500/50 text-[10px] font-black tracking-[0.25em] uppercase mb-3">{pkg.tier}</div>
-
-                      {/* Duration */}
-                      <h3 className="text-white font-bold text-xl mb-1">{pkg.duration}</h3>
-                      <p className="text-white/30 text-xs mb-6 font-light leading-relaxed">{pkg.description}</p>
-
-                      {/* Price */}
-                      <div className="mb-6 pb-6 border-b border-white/6">
-                        <div className={`text-3xl font-bold mb-1 ${isSelected ? 'text-gold-gradient' : 'text-white/80'}`}>
-                          ₩{pkg.price.toLocaleString()}
+                    <div className="p-8">
+                      {/* Icon + Tier */}
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${isSelected ? 'bg-amber-500/15 text-amber-400' : 'bg-white/5 text-white/30'}`}>
+                          {isMonthly ? <CalendarDays className="w-5 h-5" /> : <Clock className="w-5 h-5" />}
                         </div>
-                        <p className="text-white/30 text-xs">
-                          시간당 ₩{pkg.pricePerHour.toLocaleString()}
-                        </p>
+                        <div>
+                          <div className="text-amber-500/50 text-[10px] font-black tracking-[0.25em] uppercase">{pkg.tier}</div>
+                          <h3 className="text-white font-bold text-lg leading-tight">{pkg.label}</h3>
+                        </div>
                       </div>
-
+                      <p className="text-white/30 text-xs mb-7 font-light leading-relaxed">{pkg.description}</p>
+                      {/* Price */}
+                      <div className="mb-7 pb-7 border-b border-white/6">
+                        {isMonthly ? (
+                          <>
+                            <div className={`text-3xl font-bold mb-1 ${isSelected ? 'text-gold-gradient' : 'text-white/80'}`}>
+                              시간당 ₩{pkg.pricePerHour.toLocaleString()}
+                            </div>
+                            <p className="text-white/25 text-xs">월 정기 결제 · 사용 시간 기준 정산</p>
+                          </>
+                        ) : (
+                          <>
+                            <div className={`text-3xl font-bold mb-1 ${isSelected ? 'text-gold-gradient' : 'text-white/80'}`}>
+                              ₩{pkg.price.toLocaleString()}
+                            </div>
+                            <p className="text-white/25 text-xs">
+                              {pkg.hours}시간 · 시간당 ₩{pkg.pricePerHour.toLocaleString()}
+                            </p>
+                          </>
+                        )}
+                      </div>
                       {/* Features */}
-                      <ul className="space-y-2.5 mb-8">
+                      <ul className="space-y-3 mb-8">
                         {pkg.features.map((feature, index) => (
-                          <li key={index} className="flex items-start gap-2.5">
+                          <li key={index} className="flex items-start gap-3">
                             <span className={`flex-shrink-0 w-4 h-4 rounded-full flex items-center justify-center mt-0.5 ${isSelected ? 'bg-amber-500/20' : 'bg-white/5'}`}>
                               <Check className={`w-2.5 h-2.5 ${isSelected ? 'text-amber-400' : 'text-white/40'}`} />
                             </span>
@@ -262,11 +264,10 @@ export default function ServicesPage() {
                           </li>
                         ))}
                       </ul>
-
                       {/* CTA */}
                       <button
                         onClick={(e) => { e.stopPropagation(); window.open('https://itemmania.com', '_blank'); }}
-                        className={`w-full py-3 px-4 rounded-xl text-xs font-bold tracking-widest uppercase transition-all ${
+                        className={`w-full py-3.5 px-4 rounded-xl text-xs font-bold tracking-widest uppercase transition-all ${
                           isSelected
                             ? 'btn-luxury'
                             : 'bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/60 border border-white/8'
@@ -280,10 +281,9 @@ export default function ServicesPage() {
               })}
             </div>
 
-            {/* Price comparison note */}
             <div className={`mt-8 text-center transition-all duration-700 ${pricing.inView ? 'opacity-100' : 'opacity-0'}`} style={{ transitionDelay: '0.4s' }}>
               <p className="text-white/20 text-xs font-light">
-                * 모든 패키지는 아이템매니아를 통해 안전하게 결제됩니다. · 패키지 클릭 시 상세 내용을 확인할 수 있습니다.
+                * 모든 플랜은 아이템매니아를 통해 안전하게 결제됩니다.
               </p>
             </div>
           </div>
